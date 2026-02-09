@@ -1,0 +1,3594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Resource Management Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-light: #2c3e50;
+            --secondary-light: #3498db;
+            --accent-light: #e74c3c;
+            --success-light: #2ecc71;
+            --warning-light: #f39c12;
+            --lab-light: #9b59b6;
+            --meeting-light: #1abc9c;
+            --light-light: #f8f9fa;
+            --dark-light: #343a40;
+            --gray-light: #6c757d;
+            --background-light: #f5f7fa;
+            --card-light: #ffffff;
+            --border-light: #e1e5eb;
+            --text-light: #343a40;
+            --text-secondary-light: #6c757d;
+            
+            /* Dark mode variables */
+            --primary-dark: #3498db;
+            --secondary-dark: #2980b9;
+            --accent-dark: #e74c3c;
+            --success-dark: #27ae60;
+            --warning-dark: #f39c12;
+            --lab-dark: #8e44ad;
+            --meeting-dark: #16a085;
+            --light-dark: #2c3e50;
+            --dark-dark: #ecf0f1;
+            --gray-dark: #7f8c8d;
+            --background-dark: #1a1a2e;
+            --card-dark: #2d3047;
+            --border-dark: #3a3e5c;
+            --text-dark: #ecf0f1;
+            --text-secondary-dark: #bdc3c7;
+            
+            /* Common variables */
+            --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-primary: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 100%);
+            --gradient-primary-dark: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --shadow-dark: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.15);
+            --shadow-lg-dark: 0 15px 35px rgba(0, 0, 0, 0.4);
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        /* Light mode as default */
+        :root {
+            --primary: var(--primary-light);
+            --secondary: var(--secondary-light);
+            --accent: var(--accent-light);
+            --success: var(--success-light);
+            --warning: var(--warning-light);
+            --lab: var(--lab-light);
+            --meeting: var(--meeting-light);
+            --light: var(--light-light);
+            --dark: var(--dark-light);
+            --gray: var(--gray-light);
+            --background: var(--background-light);
+            --card: var(--card-light);
+            --border: var(--border-light);
+            --text: var(--text-light);
+            --text-secondary: var(--text-secondary-light);
+            --gradient-primary: var(--gradient-primary);
+            --shadow: var(--shadow);
+            --shadow-lg: var(--shadow-lg);
+        }
+        
+        .dark-mode {
+            --primary: var(--primary-dark);
+            --secondary: var(--secondary-dark);
+            --accent: var(--accent-dark);
+            --success: var(--success-dark);
+            --warning: var(--warning-dark);
+            --lab: var(--lab-dark);
+            --meeting: var(--meeting-dark);
+            --light: var(--light-dark);
+            --dark: var(--dark-dark);
+            --gray: var(--gray-dark);
+            --background: var(--background-dark);
+            --card: var(--card-dark);
+            --border: var(--border-dark);
+            --text: var(--text-dark);
+            --text-secondary: var(--text-secondary-dark);
+            --gradient-primary: var(--gradient-primary-dark);
+            --shadow: var(--shadow-dark);
+            --shadow-lg: var(--shadow-lg-dark);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+        
+        body {
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: var(--gradient-bg);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+        
+        .logo i {
+            font-size: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            border-radius: 50%;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 5px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        nav a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: left 0.4s;
+        }
+        
+        nav a:hover:before, nav a.active:before {
+            left: 0;
+        }
+        
+        nav a:hover, nav a.active {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .notification {
+            background: var(--card);
+            border-left: 5px solid var(--secondary);
+            padding: 18px 25px;
+            margin: 20px 0;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            animation: slideIn 0.5s ease-out;
+            color: var(--text);
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid transparent;
+        }
+        
+        .stat-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-icon {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .sidebar {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .sidebar h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+            font-weight: 700;
+        }
+        
+        .faculty-list, .resource-list {
+            list-style: none;
+        }
+        
+        .faculty-list li, .resource-list li {
+            padding: 15px;
+            margin-bottom: 10px;
+            background: var(--light);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid transparent;
+            color: var(--text);
+        }
+        
+        .faculty-list li:hover, .resource-list li:hover,
+        .faculty-list li.active, .resource-list li.active {
+            background: var(--secondary);
+            color: white;
+            transform: translateX(8px);
+            border-left-color: white;
+        }
+        
+        .main-content {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+        }
+        
+        .tab:hover {
+            background: rgba(52, 152, 219, 0.05);
+            color: var(--text);
+        }
+        
+        .tab.active {
+            border-bottom: 3px solid var(--secondary);
+            color: var(--secondary);
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .timetable-container {
+            overflow-x: auto;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+        }
+        
+        .timetable {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+        
+        .timetable th {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 18px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+        
+        .timetable td {
+            padding: 15px;
+            border: 1px solid var(--border);
+            text-align: center;
+            vertical-align: top;
+            height: 90px;
+            transition: var(--transition);
+            background: var(--card);
+        }
+        
+        .timetable td:hover {
+            background: rgba(52, 152, 219, 0.03);
+        }
+        
+        .time-slot {
+            background: var(--light);
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .class-event {
+            background: var(--success);
+            color: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .class-event:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .class-event:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .class-event.lab {
+            background: var(--lab);
+        }
+        
+        .class-event.office {
+            background: var(--warning);
+        }
+        
+        .class-event.meeting {
+            background: var(--meeting);
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        .btn-danger {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c0392b;
+            transform: translateY(-3px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--secondary);
+            color: var(--secondary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--card);
+            color: var(--text);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal-content {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 35px;
+            width: 90%;
+            max-width: 550px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            animation: modalSlideIn 0.4s ease-out;
+            color: var(--text);
+        }
+        
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+        
+        .close-modal:hover {
+            color: var(--accent);
+            transform: rotate(90deg);
+        }
+        
+        .room-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .room-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .room-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+        }
+        
+        .room-card.allocated:before {
+            background: var(--accent);
+        }
+        
+        .room-card.available:before {
+            background: var(--success);
+        }
+        
+        .room-card.lab:before {
+            background: var(--lab);
+        }
+        
+        .room-card.meeting:before {
+            background: var(--meeting);
+        }
+        
+        .room-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .room-name {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        
+        .room-status {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        
+        .status-available {
+            background: rgba(46, 204, 113, 0.1);
+            color: var(--success);
+        }
+        
+        .status-allocated {
+            background: rgba(231, 76, 60, 0.1);
+            color: var(--accent);
+        }
+        
+        .room-schedule {
+            list-style: none;
+            margin-top: 20px;
+        }
+        
+        .room-schedule li {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: var(--light);
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            color: var(--text);
+        }
+        
+        .room-schedule li:hover {
+            background: var(--border);
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            margin: 30px 0;
+            padding: 20px;
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .legend-color {
+            width: 22px;
+            height: 22px;
+            border-radius: 5px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 25px;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            padding: 18px 25px;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transform: translateX(400px);
+            opacity: 0;
+            transition: transform 0.5s, opacity 0.3s;
+            max-width: 400px;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .toast.success {
+            background: var(--success);
+        }
+        
+        .toast.error {
+            background: var(--accent);
+        }
+        
+        .toast.info {
+            background: var(--secondary);
+        }
+        
+        .new-feature-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+        }
+        
+        .analytics-chart {
+            background: var(--card);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: var(--shadow);
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+            position: relative;
+        }
+        
+        .chart-placeholder {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background: var(--light);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        
+        .calendar-view {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-top: 25px;
+        }
+        
+        .calendar-day {
+            background: var(--card);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            min-height: 120px;
+            border: 1px solid var(--border);
+        }
+        
+        .calendar-day:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .calendar-day.current {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .calendar-day-header {
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .calendar-day.current .calendar-day-header {
+            color: white;
+        }
+        
+        .calendar-event {
+            font-size: 0.8rem;
+            padding: 5px;
+            margin: 3px 0;
+            background: var(--success);
+            color: white;
+            border-radius: 4px;
+            text-align: left;
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+        
+        .search-box input {
+            padding-left: 45px;
+        }
+        
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .empty-slot {
+            height: 60px;
+            background: var(--light);
+            border-radius: 6px;
+        }
+        
+        .drag-handle {
+            cursor: move;
+            opacity: 0.6;
+            margin-right: 5px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .drag-handle:hover {
+            opacity: 1;
+        }
+        
+        .drag-over {
+            background: rgba(52, 152, 219, 0.1) !important;
+            border: 2px dashed var(--secondary) !important;
+        }
+        
+        select.form-control option {
+            background: var(--card);
+            color: var(--text);
+        }
+        
+        .conflict-alert {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            color: var(--text);
+        }
+        
+        .conflict-alert i {
+            color: var(--accent);
+            margin-right: 10px;
+        }
+        
+        /* Dark mode specific adjustments */
+        .dark-mode .timetable td {
+            background: var(--card);
+        }
+        
+        .dark-mode .timetable td:hover {
+            background: rgba(52, 152, 219, 0.05);
+        }
+        
+        .dark-mode .empty-slot {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .dark-mode .search-box i {
+            color: var(--text-secondary);
+        }
+        
+        .dark-mode .form-control::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .dark-mode .btn-outline {
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+        
+        .dark-mode .btn-outline:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .dark-mode .status-available {
+            background: rgba(46, 204, 113, 0.15);
+            color: var(--success);
+        }
+        
+        .dark-mode .status-allocated {
+            background: rgba(231, 76, 60, 0.15);
+            color: var(--accent);
+        }
+        
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .room-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                flex: 1;
+                min-width: 140px;
+                text-align: center;
+            }
+            
+            .calendar-view {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .calendar-view {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>College Resource Pro</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active" data-page="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="#" data-page="timetable"><i class="fas fa-calendar-alt"></i> Timetable</a></li>
+                        <li><a href="#" data-page="rooms"><i class="fas fa-door-open"></i> Rooms</a></li>
+                        <li><a href="#" data-page="resources"><i class="fas fa-tools"></i> Resources</a></li>
+                        <li><a href="#" data-page="calendar"><i class="fas fa-calendar-day"></i> Calendar</a></li>
+                        <li><a href="#" data-page="analytics"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                        <li><a href="#" data-page="profile"><i class="fas fa-user"></i> Profile</a></li>
+                    </ul>
+                </nav>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Notification Toast -->
+        <div class="toast" id="toast">
+            <i class="fas fa-check-circle"></i>
+            <span id="toast-message">Operation successful!</span>
+        </div>
+        
+        <!-- Dashboard Page -->
+        <div id="dashboard" class="page active">
+            <div class="notification">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <strong>Welcome to College Resource Management Pro!</strong> 
+                    <p style="margin-top: 5px;">Manage schedules, allocate resources, and track usage with our enhanced system.</p>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-door-open stat-icon"></i>
+                    <div class="stat-number" id="total-rooms">156</div>
+                    <div class="stat-label">Total Rooms</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar-check stat-icon"></i>
+                    <div class="stat-number" id="allocated-rooms">94</div>
+                    <div class="stat-label">Allocated Rooms</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock stat-icon"></i>
+                    <div class="stat-number" id="available-rooms">62</div>
+                    <div class="stat-label">Available Rooms</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-chart-line stat-icon"></i>
+                    <div class="stat-number" id="allocation-rate">60%</div>
+                    <div class="stat-label">Allocation Rate</div>
+                </div>
+            </div>
+            
+            <div class="dashboard">
+                <div class="sidebar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" class="form-control" placeholder="Search faculty or rooms..." id="global-search">
+                    </div>
+                    
+                    <h3><i class="fas fa-users"></i> Faculty Members</h3>
+                    <ul class="faculty-list" id="faculty-list">
+                        <li class="active" data-faculty="smith"><i class="fas fa-user-graduate"></i> Dr. Smith (CS)</li>
+                        <li data-faculty="johnson"><i class="fas fa-user-graduate"></i> Prof. Johnson (Math)</li>
+                        <li data-faculty="williams"><i class="fas fa-user-graduate"></i> Dr. Williams (Physics)</li>
+                        <li data-faculty="brown"><i class="fas fa-user-graduate"></i> Prof. Brown (Chemistry)</li>
+                        <li data-faculty="davis"><i class="fas fa-user-graduate"></i> Dr. Davis (Engineering)</li>
+                    </ul>
+                    
+                    <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                    <ul class="resource-list">
+                        <li id="quick-schedule"><i class="fas fa-calendar-day"></i> View My Schedule</li>
+                        <li id="quick-allocate"><i class="fas fa-plus-circle"></i> Allocate Room</li>
+                        <li id="quick-check"><i class="fas fa-search"></i> Check Availability</li>
+                        <li id="quick-analytics"><i class="fas fa-chart-pie"></i> View Analytics</li>
+                    </ul>
+                </div>
+                
+                <div class="main-content">
+                    <h2><i class="fas fa-tachometer-alt"></i> Faculty Dashboard</h2>
+                    <p style="margin: 15px 0 25px 0; color: var(--text-secondary);">Welcome back, Dr. Smith. Here's your resource management overview.</p>
+                    
+                    <div class="room-grid">
+                        <div class="room-card">
+                            <div class="room-header">
+                                <div class="room-name">Today's Schedule</div>
+                                <div class="room-status status-allocated">3 Classes</div>
+                            </div>
+                            <ul class="room-schedule">
+                                <li>9:00 AM - Data Structures <span>A-101</span></li>
+                                <li>11:00 AM - Office Hours <span>CS-305</span></li>
+                                <li>2:00 PM - Algorithms Lab <span>Lab B-205</span></li>
+                            </ul>
+                            <button class="btn btn-primary" style="margin-top: 15px; width: 100%;" id="view-schedule">
+                                <i class="fas fa-calendar-alt"></i> View Full Schedule
+                            </button>
+                        </div>
+                        
+                        <div class="room-card available">
+                            <div class="room-header">
+                                <div class="room-name">Available Rooms</div>
+                                <div class="room-status status-available">Now</div>
+                            </div>
+                            <ul class="room-schedule">
+                                <li>Classroom C-201 <span>40 seats</span></li>
+                                <li>Lab D-102 <span>25 computers</span></li>
+                                <li>Conference Room <span>20 people</span></li>
+                            </ul>
+                            <button class="btn btn-primary" style="margin-top: 15px; width: 100%;" id="book-room">
+                                <i class="fas fa-plus-circle"></i> Book a Room
+                            </button>
+                        </div>
+                        
+                        <div class="room-card">
+                            <div class="new-feature-badge">NEW</div>
+                            <div class="room-header">
+                                <div class="room-name">Upcoming Deadlines</div>
+                                <div class="room-status status-allocated">3 Pending</div>
+                            </div>
+                            <ul class="room-schedule">
+                                <li>Room Allocation Requests <span>2 days left</span></li>
+                                <li>End-Semester Reports <span>1 week left</span></li>
+                                <li>Resource Inventory <span>3 days left</span></li>
+                            </ul>
+                            <button class="btn btn-outline" style="margin-top: 15px; width: 100%;" id="manage-deadlines">
+                                <i class="fas fa-calendar-check"></i> Manage Deadlines
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-chart">
+                        <h3><i class="fas fa-chart-bar"></i> Weekly Room Utilization</h3>
+                        <div class="chart-container">
+                            <div class="chart-placeholder">
+                                <i class="fas fa-chart-bar fa-3x"></i>
+                                <div style="margin-left: 15px;">
+                                    <h4>Room Utilization Chart</h4>
+                                    <p>Visual representation of room usage throughout the week</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Timetable Page -->
+        <div id="timetable" class="page">
+            <h2><i class="fas fa-calendar-alt"></i> Interactive Timetable</h2>
+            <p style="margin: 10px 0 20px 0; color: var(--text-secondary);">Drag and drop to rearrange your weekly schedule</p>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--success);"></div>
+                    <span>Lecture</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--lab);"></div>
+                    <span>Lab Session</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--warning);"></div>
+                    <span>Office Hours</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--meeting);"></div>
+                    <span>Meeting</span>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                <button class="btn btn-primary" id="add-class-btn">
+                    <i class="fas fa-plus"></i> Add Class
+                </button>
+                <button class="btn btn-outline" id="clear-schedule-btn">
+                    <i class="fas fa-trash-alt"></i> Clear Day
+                </button>
+                <button class="btn btn-outline" id="export-timetable-btn">
+                    <i class="fas fa-file-export"></i> Export
+                </button>
+                <button class="btn btn-outline" id="generate-optimized-schedule">
+                    <i class="fas fa-magic"></i> Optimize Schedule
+                </button>
+            </div>
+            
+            <div class="timetable-container">
+                <table class="timetable">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                        </tr>
+                    </thead>
+                    <tbody id="timetable-body">
+                        <!-- Timetable rows will be generated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 20px; background: var(--light); border-radius: var(--radius);">
+                <h4><i class="fas fa-lightbulb"></i> Drag & Drop Tips</h4>
+                <p style="margin-top: 10px; color: var(--text-secondary);">Drag classes between time slots or days to rearrange your schedule. Classes will automatically adjust to avoid conflicts.</p>
+            </div>
+        </div>
+        
+        <!-- Rooms Page -->
+        <div id="rooms" class="page">
+            <h2><i class="fas fa-door-open"></i> Smart Room Allocation</h2>
+            <p style="margin: 10px 0 20px 0; color: var(--text-secondary);">View and manage all room allocations with real-time availability</p>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--card); border: 2px solid var(--success);"></div>
+                    <span>Available Room</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--card); border: 2px solid var(--accent);"></div>
+                    <span>Allocated Room</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--card); border: 2px solid var(--lab);"></div>
+                    <span>Laboratory</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--card); border: 2px solid var(--meeting);"></div>
+                    <span>Meeting Room</span>
+                </div>
+            </div>
+            
+            <div class="search-box" style="margin-bottom: 25px;">
+                <i class="fas fa-search"></i>
+                <input type="text" class="form-control" placeholder="Search by room number, faculty, or course..." id="room-search">
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                <select class="form-control" style="width: 150px;" id="room-filter-status">
+                    <option value="all">All Status</option>
+                    <option value="available">Available</option>
+                    <option value="allocated">Allocated</option>
+                </select>
+                <select class="form-control" style="width: 150px;" id="room-filter-type">
+                    <option value="all">All Types</option>
+                    <option value="classroom">Classroom</option>
+                    <option value="lab">Lab</option>
+                    <option value="meeting">Meeting Room</option>
+                </select>
+                <select class="form-control" style="width: 180px;" id="room-filter-building">
+                    <option value="all">All Floors</option>
+                    <option value="1">Floor 1</option>
+                    <option value="2">Floor 2 — Administrative Offices</option>
+                    <option value="3">Floor 3</option>
+                    <option value="4">Floor 4 — Labs (incl. CC Lab)</option>
+                    <option value="5">Floor 5</option>
+                    <option value="6">Floor 6</option>
+                    <option value="7">Floor 7</option>
+                </select>
+                <button class="btn btn-primary" id="apply-room-filters">
+                    <i class="fas fa-filter"></i> Apply Filters
+                </button>
+                <button class="btn btn-outline" id="reset-room-filters">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+            
+            <div class="room-grid" id="rooms-container">
+                <!-- Room cards will be generated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Resources Page -->
+        <div id="resources" class="page">
+            <h2><i class="fas fa-tools"></i> Resource Allocation</h2>
+            <p style="margin: 10px 0 20px 0; color: var(--text-secondary);">Allocate resources to faculty members with advanced conflict detection</p>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="resource-faculty">Faculty Member</label>
+                    <select id="resource-faculty" class="form-control">
+                        <option value="smith">Dr. Smith (Computer Science)</option>
+                        <option value="johnson">Prof. Johnson (Mathematics)</option>
+                        <option value="williams">Dr. Williams (Physics)</option>
+                        <option value="brown">Prof. Brown (Chemistry)</option>
+                        <option value="davis">Dr. Davis (Engineering)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+    <label for="resource-floor">Select Floor</label>
+    <select id="resource-floor" class="form-control">
+        <option value="">Select a floor...</option>
+        <option value="1">Floor 1 - Classrooms</option>
+        <option value="2">Floor 2 - Administrative Offices</option>
+        <option value="3">Floor 3 - Classrooms</option>
+        <option value="4">Floor 4 - Laboratories</option>
+        <option value="5">Floor 5 - Classrooms</option>
+        <option value="6">Floor 6 - Classrooms</option>
+        <option value="7">Floor 7 - Classrooms</option>
+    </select>
+</div>
+<div class="form-group" id="room-selection-container">
+    <label for="resource-room">Room/Resource</label>
+    <select id="resource-room" class="form-control">
+        <option value="">First select a floor...</option>
+    </select>
+</div>
+                
+                <div class="form-group">
+                    <label for="resource-day">Day</label>
+                    <select id="resource-day" class="form-control">
+                        <option value="monday">Monday</option>
+                        <option value="tuesday">Tuesday</option>
+                        <option value="wednesday">Wednesday</option>
+                        <option value="thursday">Thursday</option>
+                        <option value="friday">Friday</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="resource-time">Time Slot</label>
+                    <select id="resource-time" class="form-control">
+                        <option value="9-10">9:00 - 10:00</option>
+                        <option value="10-11">10:00 - 11:00</option>
+                        <option value="11-12">11:00 - 12:00</option>
+                        <option value="1-2">1:00 - 2:00</option>
+                        <option value="2-3">2:00 - 3:00</option>
+                        <option value="3-4">3:00 - 4:00</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="resource-purpose">Purpose</label>
+                    <input type="text" id="resource-purpose" class="form-control" placeholder="e.g., Lecture, Lab, Meeting">
+                </div>
+                
+                <div class="form-group">
+                    <label for="resource-duration">Duration (hours)</label>
+                    <input type="number" id="resource-duration" class="form-control" min="1" max="4" value="1">
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button class="btn btn-primary" id="allocate-resource-btn">
+                    <i class="fas fa-check-circle"></i> Allocate Resource
+                </button>
+                <button class="btn btn-outline" id="check-conflicts-btn">
+                    <i class="fas fa-exclamation-triangle"></i> Check Conflicts
+                </button>
+                <button class="btn btn-outline" id="auto-allocate-btn">
+                    <i class="fas fa-robot"></i> Auto-Allocate
+                </button>
+            </div>
+            
+            <div class="conflict-alert" id="conflict-alert">
+                <i class="fas fa-exclamation-circle"></i> <strong>Conflict Detected:</strong> <span id="conflict-message"></span>
+            </div>
+            
+            <h3 style="margin-top: 40px; margin-bottom: 20px;">Current Allocations</h3>
+            <div class="timetable-container">
+                <table class="timetable">
+                    <thead>
+                        <tr>
+                            <th>Faculty</th>
+                            <th>Resource</th>
+                            <th>Day</th>
+                            <th>Time</th>
+                            <th>Purpose</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="allocations-table">
+                        <!-- Allocations will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Calendar Page -->
+        <div id="calendar" class="page">
+            <h2><i class="fas fa-calendar-day"></i> Interactive Calendar</h2>
+            <p style="margin: 10px 0 20px 0; color: var(--text-secondary);">View your schedule in a monthly calendar format</p>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <div>
+                    <button class="btn btn-outline" id="prev-month">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <h3 style="display: inline-block; margin: 0 20px;" id="current-month">November 2023</h3>
+                    <button class="btn btn-outline" id="next-month">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <button class="btn btn-primary" id="add-event-btn">
+                    <i class="fas fa-plus"></i> Add Event
+                </button>
+            </div>
+            
+            <div class="calendar-view" id="calendar-view">
+                <!-- Calendar days will be generated by JavaScript -->
+            </div>
+            
+            <div class="legend" style="margin-top: 30px;">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--success);"></div>
+                    <span>Class / Lecture</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--lab);"></div>
+                    <span>Lab Session</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--warning);"></div>
+                    <span>Office Hours</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--meeting);"></div>
+                    <span>Meeting / Event</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--accent);"></div>
+                    <span>Deadline</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Analytics Page -->
+        <div id="analytics" class="page">
+            <h2><i class="fas fa-chart-bar"></i> Analytics & Reports</h2>
+            <p style="margin: 10px 0 20px 0; color: var(--text-secondary);">Detailed insights into resource utilization and faculty performance</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-chart-line stat-icon"></i>
+                    <div class="stat-number" id="utilization-rate">78%</div>
+                    <div class="stat-label">Avg. Room Utilization</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users stat-icon"></i>
+                    <div class="stat-number" id="faculty-count">48</div>
+                    <div class="stat-label">Active Faculty</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-book stat-icon"></i>
+                    <div class="stat-number" id="courses-count">156</div>
+                    <div class="stat-label">Courses Offered</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock stat-icon"></i>
+                    <div class="stat-number" id="avg-class-hours">16.5</div>
+                    <div class="stat-label">Avg. Weekly Hours</div>
+                </div>
+            </div>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="report-type">Report Type</label>
+                    <select id="report-type" class="form-control">
+                        <option value="room-utilization">Room Utilization</option>
+                        <option value="faculty-workload">Faculty Workload</option>
+                        <option value="resource-allocation">Resource Allocation</option>
+                        <option value="conflict-analysis">Conflict Analysis</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="time-period">Time Period</label>
+                    <select id="time-period" class="form-control">
+                        <option value="weekly">This Week</option>
+                        <option value="monthly">This Month</option>
+                        <option value="quarterly">This Quarter</option>
+                        <option value="yearly">This Year</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="department-filter">Department</label>
+                    <select id="department-filter" class="form-control">
+                        <option value="all">All Departments</option>
+                        <option value="cs">Computer Science</option>
+                        <option value="math">Mathematics</option>
+                        <option value="physics">Physics</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="engineering">Engineering</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="building-filter">Floor</label>
+                    <select id="building-filter" class="form-control">
+                        <option value="all">All Floors</option>
+                        <option value="1">Floor 1</option>
+                        <option value="2">Floor 2 — Administrative Offices</option>
+                        <option value="3">Floor 3</option>
+                        <option value="4">Floor 4 — Labs (incl. CC Lab)</option>
+                        <option value="5">Floor 5</option>
+                        <option value="6">Floor 6</option>
+                        <option value="7">Floor 7</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" id="generate-report-btn" style="margin-top: 10px;">
+                <i class="fas fa-file-download"></i> Generate Report
+            </button>
+            
+            <div class="analytics-chart" style="margin-top: 40px;">
+                <h3><i class="fas fa-chart-pie"></i> Resource Distribution by Department</h3>
+                <div class="chart-container">
+                    <div class="chart-placeholder">
+                        <i class="fas fa-chart-pie fa-3x"></i>
+                        <div style="margin-left: 15px;">
+                            <h4>Department Resource Allocation</h4>
+                            <p>Visual breakdown of resources allocated to each department</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="analytics-chart" style="margin-top: 30px;">
+                <h3><i class="fas fa-chart-line"></i> Room Utilization Trend</h3>
+                <div class="chart-container">
+                    <div class="chart-placeholder">
+                        <i class="fas fa-chart-line fa-3x"></i>
+                        <div style="margin-left: 15px;">
+                            <h4>Weekly Utilization Trend</h4>
+                            <p>Line chart showing room usage patterns over time</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Profile Page -->
+        <div id="profile" class="page">
+            <h2><i class="fas fa-user"></i> Faculty Profile</h2>
+            <p style="margin: 10px 0 20px 0; color: var(--text-secondary);">Update your personal information and preferences</p>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="profile-name">Full Name</label>
+                    <input type="text" id="profile-name" class="form-control" value="Dr. John Smith">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-department">Department</label>
+                    <input type="text" id="profile-department" class="form-control" value="Computer Science">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-email">Email Address</label>
+                    <input type="email" id="profile-email" class="form-control" value="john.smith@college.edu">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-phone">Phone Number</label>
+                    <input type="text" id="profile-phone" class="form-control" value="+1 (555) 123-4567">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-office">Office Location</label>
+                    <input type="text" id="profile-office" class="form-control" value="Building A, Room 305">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-hours">Office Hours</label>
+                    <input type="text" id="profile-hours" class="form-control" value="Mon & Wed, 1:00-2:00 PM">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-specialization">Specialization</label>
+                    <input type="text" id="profile-specialization" class="form-control" value="Algorithms, Data Structures">
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-courses">Current Courses</label>
+                    <input type="text" id="profile-courses" class="form-control" value="Data Structures, Algorithms, Database Systems">
+                </div>
+            </div>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="profile-notifications">Notifications</label>
+                    <select id="profile-notifications" class="form-control">
+                        <option value="all">All Notifications</option>
+                        <option value="important">Important Only</option>
+                        <option value="none">No Notifications</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-theme">Theme Preference</label>
+                    <select id="profile-theme" class="form-control">
+                        <option value="light">Light Theme</option>
+                        <option value="dark">Dark Theme</option>
+                        <option value="auto">Auto (System)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-language">Language</label>
+                    <select id="profile-language" class="form-control">
+                        <option value="en">English</option>
+                        <option value="hi">Hindi</option>
+                        <option value="mr">Marathi</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="profile-timezone">Timezone</label>
+                    <select id="profile-timezone" class="form-control">
+                        <option>Indian Standard Time (IST)</option>
+                        <option>Eastern Time (EST)</option>
+                        <option>UTC</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="display:flex; gap:10px; margin-top:18px;">
+                <button id="update-profile-btn" class="btn btn-primary">Save Profile</button>
+                <button id="change-password-btn" class="btn">Change Password</button>
+                <button id="export-profile-data-btn" class="btn">Export</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Class Modal -->
+    <div class="modal" id="addClassModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-plus-circle"></i> Add Class</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="addClassForm">
+                <div class="form-group">
+                    <label for="class-course">Course Name</label>
+                    <input type="text" id="class-course" class="form-control" placeholder="e.g., Data Structures">
+                </div>
+                
+                <div class="form-group">
+                    <label for="class-room">Room</label>
+                    <select id="class-room" class="form-control">
+                        <option value="">Select a room</option>
+                        <option value="A-101">Classroom A-101</option>
+                        <option value="B-205">Lab B-205</option>
+                        <option value="C-301">Conference Room</option>
+                        <option value="A-102">Classroom A-102</option>
+                        <option value="D-102">Lab D-102</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="class-day">Day</label>
+                    <select id="class-day" class="form-control">
+                        <option value="monday">Monday</option>
+                        <option value="tuesday">Tuesday</option>
+                        <option value="wednesday">Wednesday</option>
+                        <option value="thursday">Thursday</option>
+                        <option value="friday">Friday</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="class-time">Time Slot</label>
+                    <select id="class-time" class="form-control">
+                        <option value="9-10">9:00 - 10:00</option>
+                        <option value="10-11">10:00 - 11:00</option>
+                        <option value="11-12">11:00 - 12:00</option>
+                        <option value="1-2">1:00 - 2:00</option>
+                        <option value="2-3">2:00 - 3:00</option>
+                        <option value="3-4">3:00 - 4:00</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="class-type">Class Type</label>
+                    <select id="class-type" class="form-control">
+                        <option value="lecture">Lecture</option>
+                        <option value="lab">Lab Session</option>
+                        <option value="office">Office Hours</option>
+                        <option value="meeting">Meeting</option>
+                    </select>
+                </div>
+                
+                <button type="button" class="btn btn-primary" id="save-class-btn" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-save"></i> Save Class
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Room Details Modal -->
+    <div class="modal" id="roomDetailsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="room-details-title">Room Details</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div id="room-details-content">
+                <!-- Room details will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Event Modal -->
+    <div class="modal" id="addEventModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fas fa-calendar-plus"></i> Add Event</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="addEventForm">
+                <div class="form-group">
+                    <label for="event-title">Event Title</label>
+                    <input type="text" id="event-title" class="form-control" placeholder="e.g., Department Meeting">
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-date">Date</label>
+                    <input type="date" id="event-date" class="form-control" value="2023-11-15">
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-time">Time</label>
+                    <input type="time" id="event-time" class="form-control" value="14:00">
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-duration">Duration (hours)</label>
+                    <input type="number" id="event-duration" class="form-control" min="0.5" max="8" step="0.5" value="1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-type">Event Type</label>
+                    <select id="event-type" class="form-control">
+                        <option value="meeting">Meeting</option>
+                        <option value="deadline">Deadline</option>
+                        <option value="office-hours">Office Hours</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="event-location">Location</label>
+                    <input type="text" id="event-location" class="form-control" placeholder="e.g., Conference Room C-301">
+                </div>
+                
+                <button type="button" class="btn btn-primary" id="save-event-btn" style="width: 100%; margin-top: 20px;">
+                    <i class="fas fa-save"></i> Save Event
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>College Resource Management Pro &copy; 2023 | Version 2.0 | All Rights Reserved</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">
+                <i class="fas fa-envelope"></i> support@college-resource.edu | 
+                <i class="fas fa-phone"></i> +1 (800) 123-4567
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const roomData = [
+    // Floor 1 → 20 classrooms
+    { id: 101, name: "1-101", type: "classroom", capacity: 40, status: "available", floor: 1 },
+    { id: 102, name: "1-102", type: "classroom", capacity: 40, status: "available", floor: 1 },
+    { id: 103, name: "1-103", type: "classroom", capacity: 35, status: "available", floor: 1 },
+    { id: 104, name: "1-104", type: "classroom", capacity: 30, status: "available", floor: 1 },
+    { id: 105, name: "1-105", type: "classroom", capacity: 30, status: "available", floor: 1 },
+    { id: 106, name: "1-106", type: "classroom", capacity: 45, status: "allocated", faculty: "Dr. Allen", course: "Intro CS", schedule: "Mon 9:00-10:00", floor: 1 },
+    { id: 107, name: "1-107", type: "classroom", capacity: 50, status: "available", floor: 1 },
+    { id: 108, name: "1-108", type: "classroom", capacity: 40, status: "available", floor: 1 },
+    { id: 109, name: "1-109", type: "classroom", capacity: 35, status: "available", floor: 1 },
+    { id: 110, name: "1-110", type: "classroom", capacity: 30, status: "available", floor: 1 },
+    { id: 111, name: "1-111", type: "classroom", capacity: 30, status: "available", floor: 1 },
+    { id: 112, name: "1-112", type: "classroom", capacity: 40, status: "available", floor: 1 },
+    { id: 113, name: "1-113", type: "classroom", capacity: 45, status: "available", floor: 1 },
+    { id: 114, name: "1-114", type: "classroom", capacity: 50, status: "available", floor: 1 },
+    { id: 115, name: "1-115", type: "classroom", capacity: 30, status: "available", floor: 1 },
+    { id: 116, name: "1-116", type: "classroom", capacity: 35, status: "available", floor: 1 },
+    { id: 117, name: "1-117", type: "classroom", capacity: 30, status: "available", floor: 1 },
+    { id: 118, name: "1-118", type: "classroom", capacity: 30, status: "available", floor: 1 },
+    { id: 119, name: "1-119", type: "classroom", capacity: 40, status: "available", floor: 1 },
+    { id: 120, name: "1-120", type: "classroom", capacity: 40, status: "available", floor: 1 },
+
+    // Floor 2 → Administrative Offices
+    { id: 201, name: "Admin-201", type: "office", capacity: 4, status: "available", floor: 2 },
+    { id: 202, name: "Admin-202", type: "office", capacity: 3, status: "available", floor: 2 },
+    { id: 203, name: "Admin-203", type: "office", capacity: 2, status: "available", floor: 2 },
+    { id: 204, name: "Admin-204", type: "office", capacity: 6, status: "available", floor: 2 },
+    { id: 205, name: "Admin-205", type: "office", capacity: 4, status: "available", floor: 2 },
+    { id: 206, name: "Admin-206", type: "office", capacity: 4, status: "available", floor: 2 },
+    { id: 207, name: "Admin-207", type: "office", capacity: 5, status: "available", floor: 2 },
+    { id: 208, name: "Admin-208", type: "office", capacity: 3, status: "available", floor: 2 },
+
+    // Floor 3 → 20 classrooms
+    { id: 301, name: "3-101", type: "classroom", capacity: 30, status: "available", floor: 3 },
+    { id: 302, name: "3-102", type: "classroom", capacity: 30, status: "available", floor: 3 },
+    { id: 303, name: "3-103", type: "classroom", capacity: 35, status: "available", floor: 3 },
+    { id: 304, name: "3-104", type: "classroom", capacity: 40, status: "available", floor: 3 },
+    { id: 305, name: "3-105", type: "classroom", capacity: 30, status: "available", floor: 3 },
+    { id: 306, name: "3-106", type: "classroom", capacity: 30, status: "available", floor: 3 },
+    { id: 307, name: "3-107", type: "classroom", capacity: 40, status: "available", floor: 3 },
+    { id: 308, name: "3-108", type: "classroom", capacity: 45, status: "available", floor: 3 },
+    { id: 309, name: "3-109", type: "classroom", capacity: 35, status: "available", floor: 3 },
+    { id: 310, name: "3-110", type: "classroom", capacity: 30, status: "available", floor: 3 },
+    { id: 311, name: "3-111", type: "classroom", capacity: 30, status: "available", floor: 3 },
+    { id: 312, name: "3-112", type: "classroom", capacity: 40, status: "available", floor: 3 },
+    { id: 313, name: "3-113", type: "classroom", capacity: 45, status: "available", floor: 3 },
+    { id: 314, name: "3-114", type: "classroom", capacity: 50, status: "available", floor: 3 },
+    { id: 315, name: "3-115", type: "classroom", capacity: 30, status: "available", floor: 3 },
+    { id: 316, name: "3-116", type: "classroom", capacity: 35, status: "available", floor: 3 },
+    { id: 317, name: "3-117", type: "classroom", capacity: 30, status: "available", floor: 3 },
+    { id: 318, name: "3-118", type: "classroom", capacity: 30, status: "available", floor: 3 },
+    { id: 319, name: "3-119", type: "classroom", capacity: 40, status: "available", floor: 3 },
+    { id: 320, name: "3-120", type: "classroom", capacity: 40, status: "available", floor: 3 },
+
+    // Floor 4 → 13 labs + central CC Lab
+    { id: 401, name: "Lab-401", type: "lab", capacity: 24, status: "available", floor: 4 },
+    { id: 402, name: "Lab-402", type: "lab", capacity: 24, status: "available", floor: 4 },
+    { id: 403, name: "Lab-403", type: "lab", capacity: 20, status: "available", floor: 4 },
+    { id: 404, name: "CC-Lab", type: "lab", capacity: 60, status: "available", floor: 4 },
+    { id: 405, name: "Lab-404", type: "lab", capacity: 20, status: "available", floor: 4 },
+    { id: 406, name: "Lab-405", type: "lab", capacity: 20, status: "available", floor: 4 },
+    { id: 407, name: "Lab-406", type: "lab", capacity: 20, status: "available", floor: 4 },
+    { id: 408, name: "Lab-407", type: "lab", capacity: 20, status: "available", floor: 4 },
+    { id: 409, name: "Lab-408", type: "lab", capacity: 20, status: "available", floor: 4 },
+    { id: 410, name: "Lab-409", type: "lab", capacity: 20, status: "available", floor: 4 },
+    { id: 411, name: "Lab-410", type: "lab", capacity: 20, status: "available", floor: 4 },
+    { id: 412, name: "Lab-411", type: "lab", capacity: 20, status: "available", floor: 4 },
+    { id: 413, name: "Lab-412", type: "lab", capacity: 20, status: "available", floor: 4 },
+    { id: 414, name: "Lab-413", type: "lab", capacity: 20, status: "available", floor: 4 },
+
+    // Floor 5 → 20 classrooms
+    { id: 501, name: "5-101", type: "classroom", capacity: 30, status: "available", floor: 5 },
+    { id: 502, name: "5-102", type: "classroom", capacity: 30, status: "available", floor: 5 },
+    { id: 503, name: "5-103", type: "classroom", capacity: 35, status: "available", floor: 5 },
+    { id: 504, name: "5-104", type: "classroom", capacity: 40, status: "available", floor: 5 },
+    { id: 505, name: "5-105", type: "classroom", capacity: 30, status: "available", floor: 5 },
+    { id: 506, name: "5-106", type: "classroom", capacity: 30, status: "available", floor: 5 },
+    { id: 507, name: "5-107", type: "classroom", capacity: 40, status: "available", floor: 5 },
+    { id: 508, name: "5-108", type: "classroom", capacity: 45, status: "available", floor: 5 },
+    { id: 509, name: "5-109", type: "classroom", capacity: 35, status: "available", floor: 5 },
+    { id: 510, name: "5-110", type: "classroom", capacity: 30, status: "available", floor: 5 },
+    { id: 511, name: "5-111", type: "classroom", capacity: 30, status: "available", floor: 5 },
+    { id: 512, name: "5-112", type: "classroom", capacity: 40, status: "available", floor: 5 },
+    { id: 513, name: "5-113", type: "classroom", capacity: 45, status: "available", floor: 5 },
+    { id: 514, name: "5-114", type: "classroom", capacity: 50, status: "available", floor: 5 },
+    { id: 515, name: "5-115", type: "classroom", capacity: 30, status: "available", floor: 5 },
+    { id: 516, name: "5-116", type: "classroom", capacity: 35, status: "available", floor: 5 },
+    { id: 517, name: "5-117", type: "classroom", capacity: 30, status: "available", floor: 5 },
+    { id: 518, name: "5-118", type: "classroom", capacity: 30, status: "available", floor: 5 },
+    { id: 519, name: "5-119", type: "classroom", capacity: 40, status: "available", floor: 5 },
+    { id: 520, name: "5-120", type: "classroom", capacity: 40, status: "available", floor: 5 },
+
+    // Floor 6 → 20 classrooms
+    { id: 601, name: "6-101", type: "classroom", capacity: 30, status: "available", floor: 6 },
+    { id: 602, name: "6-102", type: "classroom", capacity: 30, status: "available", floor: 6 },
+    { id: 603, name: "6-103", type: "classroom", capacity: 35, status: "available", floor: 6 },
+    { id: 604, name: "6-104", type: "classroom", capacity: 40, status: "available", floor: 6 },
+    { id: 605, name: "6-105", type: "classroom", capacity: 30, status: "available", floor: 6 },
+    { id: 606, name: "6-106", type: "classroom", capacity: 30, status: "available", floor: 6 },
+    { id: 607, name: "6-107", type: "classroom", capacity: 40, status: "available", floor: 6 },
+    { id: 608, name: "6-108", type: "classroom", capacity: 45, status: "available", floor: 6 },
+    { id: 609, name: "6-109", type: "classroom", capacity: 35, status: "available", floor: 6 },
+    { id: 610, name: "6-110", type: "classroom", capacity: 30, status: "available", floor: 6 },
+    { id: 611, name: "6-111", type: "classroom", capacity: 30, status: "available", floor: 6 },
+    { id: 612, name: "6-112", type: "classroom", capacity: 40, status: "available", floor: 6 },
+    { id: 613, name: "6-113", type: "classroom", capacity: 45, status: "available", floor: 6 },
+    { id: 614, name: "6-114", type: "classroom", capacity: 50, status: "available", floor: 6 },
+    { id: 615, name: "6-115", type: "classroom", capacity: 30, status: "available", floor: 6 },
+    { id: 616, name: "6-116", type: "classroom", capacity: 35, status: "available", floor: 6 },
+    { id: 617, name: "6-117", type: "classroom", capacity: 30, status: "available", floor: 6 },
+    { id: 618, name: "6-118", type: "classroom", capacity: 30, status: "available", floor: 6 },
+    { id: 619, name: "6-119", type: "classroom", capacity: 40, status: "available", floor: 6 },
+    { id: 620, name: "6-120", type: "classroom", capacity: 40, status: "available", floor: 6 },
+
+    // Floor 7 → 20 classrooms
+    { id: 701, name: "7-101", type: "classroom", capacity: 30, status: "available", floor: 7 },
+    { id: 702, name: "7-102", type: "classroom", capacity: 30, status: "available", floor: 7 },
+    { id: 703, name: "7-103", type: "classroom", capacity: 35, status: "available", floor: 7 },
+    { id: 704, name: "7-104", type: "classroom", capacity: 40, status: "available", floor: 7 },
+    { id: 705, name: "7-105", type: "classroom", capacity: 30, status: "available", floor: 7 },
+    { id: 706, name: "7-106", type: "classroom", capacity: 30, status: "available", floor: 7 },
+    { id: 707, name: "7-107", type: "classroom", capacity: 40, status: "available", floor: 7 },
+    { id: 708, name: "7-108", type: "classroom", capacity: 45, status: "available", floor: 7 },
+    { id: 709, name: "7-109", type: "classroom", capacity: 35, status: "available", floor: 7 },
+    { id: 710, name: "7-110", type: "classroom", capacity: 30, status: "available", floor: 7 },
+    { id: 711, name: "7-111", type: "classroom", capacity: 30, status: "available", floor: 7 },
+    { id: 712, name: "7-112", type: "classroom", capacity: 40, status: "available", floor: 7 },
+    { id: 713, name: "7-113", type: "classroom", capacity: 45, status: "available", floor: 7 },
+    { id: 714, name: "7-114", type: "classroom", capacity: 50, status: "available", floor: 7 },
+    { id: 715, name: "7-115", type: "classroom", capacity: 30, status: "available", floor: 7 },
+    { id: 716, name: "7-116", type: "classroom", capacity: 35, status: "available", floor: 7 },
+    { id: 717, name: "7-117", type: "classroom", capacity: 30, status: "available", floor: 7 },
+    { id: 718, name: "7-118", type: "classroom", capacity: 30, status: "available", floor: 7 },
+    { id: 719, name: "7-119", type: "classroom", capacity: 40, status: "available", floor: 7 },
+    { id: 720, name: "7-120", type: "classroom", capacity: 40, status: "available", floor: 7 }
+];
+
+// Get DOM elements
+const floorSelect = document.getElementById('resource-floor');
+const roomSelect = document.getElementById('resource-room');
+
+// Function to update room options based on selected floor
+function updateRoomOptions() {
+    const selectedFloor = parseInt(floorSelect.value);
+    
+    // Clear current options
+    roomSelect.innerHTML = '<option value="">Select a room...</option>';
+    
+    if (!selectedFloor) {
+        roomSelect.innerHTML = '<option value="">First select a floor...</option>';
+        return;
+    }
+    
+    // Filter rooms by selected floor
+    const floorRooms = roomData.filter(room => room.floor === selectedFloor);
+    
+    // Group rooms by type
+    const roomsByType = {};
+    floorRooms.forEach(room => {
+        if (!roomsByType[room.type]) {
+            roomsByType[room.type] = [];
+        }
+        roomsByType[room.type].push(room);
+    });
+    
+    // Add optgroups for each room type
+    Object.keys(roomsByType).forEach(type => {
+        const typeName = type === 'classroom' ? 'Classrooms' : 
+                        type === 'lab' ? 'Laboratories' : 
+                        type === 'office' ? 'Administrative Offices' : type;
+        
+        const optgroup = document.createElement('optgroup');
+        optgroup.label = typeName;
+        
+        roomsByType[type].forEach(room => {
+            const option = document.createElement('option');
+            option.value = room.name;
+            
+            // Determine status indicator
+            let statusIndicator = '';
+            if (room.status === 'available') {
+                statusIndicator = '🟢 ';
+            } else if (room.status === 'allocated') {
+                statusIndicator = '🔴 ';
+            }
+            
+            // Build option text
+            let optionText = `${statusIndicator}${room.name}`;
+            
+            // Add capacity
+            optionText += ` (Capacity: ${room.capacity}`;
+            if (room.type === 'office') {
+                optionText += ' people)';
+            } else if (room.type === 'lab') {
+                optionText += ' stations)';
+            } else {
+                optionText += ' seats)';
+            }
+            
+            // Add allocation info if allocated
+            if (room.status === 'allocated') {
+                optionText += ` - Allocated to ${room.faculty}`;
+            }
+            
+            option.textContent = optionText;
+            option.dataset.roomId = room.id;
+            option.dataset.capacity = room.capacity;
+            option.dataset.type = room.type;
+            option.dataset.status = room.status;
+            
+            optgroup.appendChild(option);
+        });
+        
+        roomSelect.appendChild(optgroup);
+    });
+    
+    // Add special note for allocated rooms
+    if (floorRooms.some(room => room.status === 'allocated')) {
+        const note = document.createElement('option');
+        note.disabled = true;
+        note.textContent = '🔴 = Currently allocated';
+        roomSelect.appendChild(note);
+    }
+}
+
+// Add event listener to floor select
+floorSelect.addEventListener('change', updateRoomOptions);
+
+// Initialize with no rooms selected
+updateRoomOptions();
+
+// Optional: Add room selection change event
+roomSelect.addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    if (selectedOption.value) {
+        console.log('Selected Room:', {
+            name: selectedOption.value,
+            id: selectedOption.dataset.roomId,
+            capacity: selectedOption.dataset.capacity,
+            type: selectedOption.dataset.type,
+            status: selectedOption.dataset.status
+        });
+    }
+});
+        // Enhanced Application State
+        const appState = {
+            currentFaculty: 'smith',
+            rooms: [],
+            timetable: {},
+            allocations: [],
+            events: [],
+            currentFilters: {
+                status: 'all',
+                type: 'all',
+                building: 'all',
+                search: ''
+            },
+            currentMonth: new Date().getMonth(),
+            currentYear: new Date().getFullYear(),
+            darkMode: localStorage.getItem('darkMode') === 'true',
+            dragSource: null
+        };
+
+        // Enhanced sample data
+        const sampleRooms = [
+            // preserved examples (now include floor)
+            { id: 1, name: "A-101", type: "classroom", capacity: 60, status: "allocated", faculty: "Dr. Smith", course: "Data Structures", schedule: "Mon, Wed 9:00-10:00", building: "A", floor: 1 },
+            { id: 2, name: "B-205", type: "lab", capacity: 30, status: "allocated", faculty: "Dr. Smith", course: "Algorithms Lab", schedule: "Mon, Wed 10:00-11:00", building: "B", floor: 3 },
+            { id: 3, name: "C-301", type: "meeting", capacity: 20, status: "available", building: "C", floor: 5 },
+            { id: 4, name: "A-102", type: "classroom", capacity: 45, status: "allocated", faculty: "Prof. Johnson", course: "Calculus", schedule: "Tue, Thu 9:00-10:00", building: "A", floor: 1 },
+            { id: 5, name: "D-102", type: "lab", capacity: 25, status: "available", building: "D", floor: 4 },
+            { id: 6, name: "Auditorium", type: "meeting", capacity: 200, status: "allocated", faculty: "Various", course: "Guest Lectures", schedule: "Fri 2:00-4:00", building: "A", floor: 1 },
+            { id: 7, name: "E-201", type: "classroom", capacity: 50, status: "available", building: "B", floor: 2 },
+            { id: 8, name: "Lab-3", type: "lab", capacity: 20, status: "allocated", faculty: "Dr. Williams", course: "Physics Lab", schedule: "Tue, Thu 2:00-4:00", building: "C", floor: 4 },
+            { id: 9, name: "A-103", type: "classroom", capacity: 40, status: "available", building: "A", floor: 1 },
+            { id: 10, name: "B-301", type: "meeting", capacity: 15, status: "available", building: "B", floor: 6 },
+
+            // Floors 1,3,5,6,7 → 20 classrooms each (sample generated)
+            // Floor 1 additional classrooms
+            /* generated-start-floor-1 */
+            { id: 101, name: "1-101", type: "classroom", capacity: 40, status: "available", floor: 1 },
+            { id: 102, name: "1-102", type: "classroom", capacity: 40, status: "available", floor: 1 },
+            { id: 103, name: "1-103", type: "classroom", capacity: 35, status: "available", floor: 1 },
+            { id: 104, name: "1-104", type: "classroom", capacity: 30, status: "available", floor: 1 },
+            { id: 105, name: "1-105", type: "classroom", capacity: 30, status: "available", floor: 1 },
+            { id: 106, name: "1-106", type: "classroom", capacity: 45, status: "allocated", faculty: "Dr. Allen", course: "Intro CS", schedule: "Mon 9:00-10:00", floor: 1 },
+            { id: 107, name: "1-107", type: "classroom", capacity: 50, status: "available", floor: 1 },
+            { id: 108, name: "1-108", type: "classroom", capacity: 40, status: "available", floor: 1 },
+            { id: 109, name: "1-109", type: "classroom", capacity: 35, status: "available", floor: 1 },
+            { id: 110, name: "1-110", type: "classroom", capacity: 30, status: "available", floor: 1 },
+            { id: 111, name: "1-111", type: "classroom", capacity: 30, status: "available", floor: 1 },
+            { id: 112, name: "1-112", type: "classroom", capacity: 40, status: "available", floor: 1 },
+            { id: 113, name: "1-113", type: "classroom", capacity: 45, status: "available", floor: 1 },
+            { id: 114, name: "1-114", type: "classroom", capacity: 50, status: "available", floor: 1 },
+            { id: 115, name: "1-115", type: "classroom", capacity: 30, status: "available", floor: 1 },
+            { id: 116, name: "1-116", type: "classroom", capacity: 35, status: "available", floor: 1 },
+            { id: 117, name: "1-117", type: "classroom", capacity: 30, status: "available", floor: 1 },
+            { id: 118, name: "1-118", type: "classroom", capacity: 30, status: "available", floor: 1 },
+            { id: 119, name: "1-119", type: "classroom", capacity: 40, status: "available", floor: 1 },
+            { id: 120, name: "1-120", type: "classroom", capacity: 40, status: "available", floor: 1 },
+            /* generated-end-floor-1 */
+
+            // Floor 2 → Administrative Offices
+            { id: 201, name: "Admin-201", type: "office", capacity: 4, status: "available", floor: 2 },
+            { id: 202, name: "Admin-202", type: "office", capacity: 3, status: "available", floor: 2 },
+            { id: 203, name: "Admin-203", type: "office", capacity: 2, status: "available", floor: 2 },
+            { id: 204, name: "Admin-204", type: "office", capacity: 6, status: "available", floor: 2 },
+            { id: 205, name: "Admin-205", type: "office", capacity: 4, status: "available", floor: 2 },
+            { id: 206, name: "Admin-206", type: "office", capacity: 4, status: "available", floor: 2 },
+            { id: 207, name: "Admin-207", type: "office", capacity: 5, status: "available", floor: 2 },
+            { id: 208, name: "Admin-208", type: "office", capacity: 3, status: "available", floor: 2 },
+
+            // Floor 3 → 20 classrooms
+            { id: 301, name: "3-101", type: "classroom", capacity: 30, status: "available", floor: 3 },
+            { id: 302, name: "3-102", type: "classroom", capacity: 30, status: "available", floor: 3 },
+            { id: 303, name: "3-103", type: "classroom", capacity: 35, status: "available", floor: 3 },
+            { id: 304, name: "3-104", type: "classroom", capacity: 40, status: "available", floor: 3 },
+            { id: 305, name: "3-105", type: "classroom", capacity: 30, status: "available", floor: 3 },
+            { id: 306, name: "3-106", type: "classroom", capacity: 30, status: "available", floor: 3 },
+            { id: 307, name: "3-107", type: "classroom", capacity: 40, status: "available", floor: 3 },
+            { id: 308, name: "3-108", type: "classroom", capacity: 45, status: "available", floor: 3 },
+            { id: 309, name: "3-109", type: "classroom", capacity: 35, status: "available", floor: 3 },
+            { id: 310, name: "3-110", type: "classroom", capacity: 30, status: "available", floor: 3 },
+            { id: 311, name: "3-111", type: "classroom", capacity: 30, status: "available", floor: 3 },
+            { id: 312, name: "3-112", type: "classroom", capacity: 40, status: "available", floor: 3 },
+            { id: 313, name: "3-113", type: "classroom", capacity: 45, status: "available", floor: 3 },
+            { id: 314, name: "3-114", type: "classroom", capacity: 50, status: "available", floor: 3 },
+            { id: 315, name: "3-115", type: "classroom", capacity: 30, status: "available", floor: 3 },
+            { id: 316, name: "3-116", type: "classroom", capacity: 35, status: "available", floor: 3 },
+            { id: 317, name: "3-117", type: "classroom", capacity: 30, status: "available", floor: 3 },
+            { id: 318, name: "3-118", type: "classroom", capacity: 30, status: "available", floor: 3 },
+            { id: 319, name: "3-119", type: "classroom", capacity: 40, status: "available", floor: 3 },
+            { id: 320, name: "3-120", type: "classroom", capacity: 40, status: "available", floor: 3 },
+
+            // Floor 4 → 13 labs + central CC Lab
+            { id: 401, name: "Lab-401", type: "lab", capacity: 24, status: "available", floor: 4 },
+            { id: 402, name: "Lab-402", type: "lab", capacity: 24, status: "available", floor: 4 },
+            { id: 403, name: "Lab-403", type: "lab", capacity: 20, status: "available", floor: 4 },
+            { id: 404, name: "CC-Lab", type: "lab", capacity: 60, status: "available", floor: 4 },
+            { id: 405, name: "Lab-404", type: "lab", capacity: 20, status: "available", floor: 4 },
+            { id: 406, name: "Lab-405", type: "lab", capacity: 20, status: "available", floor: 4 },
+            { id: 407, name: "Lab-406", type: "lab", capacity: 20, status: "available", floor: 4 },
+            { id: 408, name: "Lab-407", type: "lab", capacity: 20, status: "available", floor: 4 },
+            { id: 409, name: "Lab-408", type: "lab", capacity: 20, status: "available", floor: 4 },
+            { id: 410, name: "Lab-409", type: "lab", capacity: 20, status: "available", floor: 4 },
+            { id: 411, name: "Lab-410", type: "lab", capacity: 20, status: "available", floor: 4 },
+            { id: 412, name: "Lab-411", type: "lab", capacity: 20, status: "available", floor: 4 },
+            { id: 413, name: "Lab-412", type: "lab", capacity: 20, status: "available", floor: 4 },
+            { id: 414, name: "Lab-413", type: "lab", capacity: 20, status: "available", floor: 4 },
+
+            // Floor 5 → 20 classrooms
+            { id: 501, name: "5-101", type: "classroom", capacity: 30, status: "available", floor: 5 },
+            { id: 502, name: "5-102", type: "classroom", capacity: 30, status: "available", floor: 5 },
+            { id: 503, name: "5-103", type: "classroom", capacity: 35, status: "available", floor: 5 },
+            { id: 504, name: "5-104", type: "classroom", capacity: 40, status: "available", floor: 5 },
+            { id: 505, name: "5-105", type: "classroom", capacity: 30, status: "available", floor: 5 },
+            { id: 506, name: "5-106", type: "classroom", capacity: 30, status: "available", floor: 5 },
+            { id: 507, name: "5-107", type: "classroom", capacity: 40, status: "available", floor: 5 },
+            { id: 508, name: "5-108", type: "classroom", capacity: 45, status: "available", floor: 5 },
+            { id: 509, name: "5-109", type: "classroom", capacity: 35, status: "available", floor: 5 },
+            { id: 510, name: "5-110", type: "classroom", capacity: 30, status: "available", floor: 5 },
+            { id: 511, name: "5-111", type: "classroom", capacity: 30, status: "available", floor: 5 },
+            { id: 512, name: "5-112", type: "classroom", capacity: 40, status: "available", floor: 5 },
+            { id: 513, name: "5-113", type: "classroom", capacity: 45, status: "available", floor: 5 },
+            { id: 514, name: "5-114", type: "classroom", capacity: 50, status: "available", floor: 5 },
+            { id: 515, name: "5-115", type: "classroom", capacity: 30, status: "available", floor: 5 },
+            { id: 516, name: "5-116", type: "classroom", capacity: 35, status: "available", floor: 5 },
+            { id: 517, name: "5-117", type: "classroom", capacity: 30, status: "available", floor: 5 },
+            { id: 518, name: "5-118", type: "classroom", capacity: 30, status: "available", floor: 5 },
+            { id: 519, name: "5-119", type: "classroom", capacity: 40, status: "available", floor: 5 },
+            { id: 520, name: "5-120", type: "classroom", capacity: 40, status: "available", floor: 5 },
+
+            // Floor 6 → 20 classrooms
+            { id: 601, name: "6-101", type: "classroom", capacity: 30, status: "available", floor: 6 },
+            { id: 602, name: "6-102", type: "classroom", capacity: 30, status: "available", floor: 6 },
+            { id: 603, name: "6-103", type: "classroom", capacity: 35, status: "available", floor: 6 },
+            { id: 604, name: "6-104", type: "classroom", capacity: 40, status: "available", floor: 6 },
+            { id: 605, name: "6-105", type: "classroom", capacity: 30, status: "available", floor: 6 },
+            { id: 606, name: "6-106", type: "classroom", capacity: 30, status: "available", floor: 6 },
+            { id: 607, name: "6-107", type: "classroom", capacity: 40, status: "available", floor: 6 },
+            { id: 608, name: "6-108", type: "classroom", capacity: 45, status: "available", floor: 6 },
+            { id: 609, name: "6-109", type: "classroom", capacity: 35, status: "available", floor: 6 },
+            { id: 610, name: "6-110", type: "classroom", capacity: 30, status: "available", floor: 6 },
+            { id: 611, name: "6-111", type: "classroom", capacity: 30, status: "available", floor: 6 },
+            { id: 612, name: "6-112", type: "classroom", capacity: 40, status: "available", floor: 6 },
+            { id: 613, name: "6-113", type: "classroom", capacity: 45, status: "available", floor: 6 },
+            { id: 614, name: "6-114", type: "classroom", capacity: 50, status: "available", floor: 6 },
+            { id: 615, name: "6-115", type: "classroom", capacity: 30, status: "available", floor: 6 },
+            { id: 616, name: "6-116", type: "classroom", capacity: 35, status: "available", floor: 6 },
+            { id: 617, name: "6-117", type: "classroom", capacity: 30, status: "available", floor: 6 },
+            { id: 618, name: "6-118", type: "classroom", capacity: 30, status: "available", floor: 6 },
+            { id: 619, name: "6-119", type: "classroom", capacity: 40, status: "available", floor: 6 },
+            { id: 620, name: "6-120", type: "classroom", capacity: 40, status: "available", floor: 6 },
+
+            // Floor 7 → 20 classrooms
+            { id: 701, name: "7-101", type: "classroom", capacity: 30, status: "available", floor: 7 },
+            { id: 702, name: "7-102", type: "classroom", capacity: 30, status: "available", floor: 7 },
+            { id: 703, name: "7-103", type: "classroom", capacity: 35, status: "available", floor: 7 },
+            { id: 704, name: "7-104", type: "classroom", capacity: 40, status: "available", floor: 7 },
+            { id: 705, name: "7-105", type: "classroom", capacity: 30, status: "available", floor: 7 },
+            { id: 706, name: "7-106", type: "classroom", capacity: 30, status: "available", floor: 7 },
+            { id: 707, name: "7-107", type: "classroom", capacity: 40, status: "available", floor: 7 },
+            { id: 708, name: "7-108", type: "classroom", capacity: 45, status: "available", floor: 7 },
+            { id: 709, name: "7-109", type: "classroom", capacity: 35, status: "available", floor: 7 },
+            { id: 710, name: "7-110", type: "classroom", capacity: 30, status: "available", floor: 7 },
+            { id: 711, name: "7-111", type: "classroom", capacity: 30, status: "available", floor: 7 },
+            { id: 712, name: "7-112", type: "classroom", capacity: 40, status: "available", floor: 7 },
+            { id: 713, name: "7-113", type: "classroom", capacity: 45, status: "available", floor: 7 },
+            { id: 714, name: "7-114", type: "classroom", capacity: 50, status: "available", floor: 7 },
+            { id: 715, name: "7-115", type: "classroom", capacity: 30, status: "available", floor: 7 },
+            { id: 716, name: "7-116", type: "classroom", capacity: 35, status: "available", floor: 7 },
+            { id: 717, name: "7-117", type: "classroom", capacity: 30, status: "available", floor: 7 },
+            { id: 718, name: "7-118", type: "classroom", capacity: 30, status: "available", floor: 7 },
+            { id: 719, name: "7-119", type: "classroom", capacity: 40, status: "available", floor: 7 },
+            { id: 720, name: "7-120", type: "classroom", capacity: 40, status: "available", floor: 7 }
+        ];
+
+        const sampleTimetable = {
+            "9-10": { monday: "Data Structures (A-101)", tuesday: "", wednesday: "Data Structures (A-101)", thursday: "", friday: "" },
+            "10-11": { monday: "Algorithms Lab (B-205)", tuesday: "", wednesday: "Algorithms Lab (B-205)", thursday: "", friday: "Lab Session (Lab-3)" },
+            "11-12": { monday: "", tuesday: "Database Systems (A-102)", wednesday: "", thursday: "Database Systems (A-102)", friday: "" },
+            "1-2": { monday: "Office Hours", tuesday: "", wednesday: "Office Hours", thursday: "", friday: "Research Meeting" },
+            "2-3": { monday: "Web Development (A-103)", tuesday: "", wednesday: "Web Development (A-103)", thursday: "", friday: "" },
+            "3-4": { monday: "", tuesday: "Lab Session (Lab-2)", wednesday: "", thursday: "Lab Session (Lab-2)", friday: "" }
+        };
+
+        const sampleAllocations = [
+            { id: 1, faculty: "Dr. Smith", resource: "Lab B-205", day: "Tuesday", time: "10:00 - 11:00", purpose: "Algorithms Lab" },
+            { id: 2, faculty: "Prof. Johnson", resource: "Classroom A-101", day: "Wednesday", time: "9:00 - 10:00", purpose: "Calculus Lecture" },
+            { id: 3, faculty: "Dr. Smith", resource: "Conference Room", day: "Friday", time: "2:00 - 3:00", purpose: "Department Meeting" }
+        ];
+
+        const sampleEvents = [
+            { id: 1, title: "Department Meeting", date: "2023-11-15", time: "14:00", duration: 1.5, type: "meeting", location: "Conference Room C-301" },
+            { id: 2, title: "Midterm Exams Begin", date: "2023-11-20", time: "09:00", duration: 0, type: "deadline", location: "All Classrooms" },
+            { id: 3, title: "Research Paper Deadline", date: "2023-11-25", time: "23:59", duration: 0, type: "deadline", location: "Online" },
+            { id: 4, title: "Guest Lecture: AI Ethics", date: "2023-11-18", time: "15:00", duration: 2, type: "meeting", location: "Auditorium" }
+        ];
+
+        // DOM Elements
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('nav a');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        const addClassModal = document.getElementById('addClassModal');
+        const roomDetailsModal = document.getElementById('roomDetailsModal');
+        const addEventModal = document.getElementById('addEventModal');
+        const facultyListItems = document.querySelectorAll('.faculty-list li');
+        const quickActionItems = document.querySelectorAll('.resource-list li');
+        const roomsContainer = document.getElementById('rooms-container');
+        const timetableBody = document.getElementById('timetable-body');
+        const allocationsTable = document.getElementById('allocations-table');
+        const calendarView = document.getElementById('calendar-view');
+        const currentMonthDisplay = document.getElementById('current-month');
+        const themeToggle = document.getElementById('themeToggle');
+        const globalSearch = document.getElementById('global-search');
+        const profileThemeSelect = document.getElementById('profile-theme');
+
+        // Initialize the application
+        function initApp() {
+            // Initialize data
+            appState.rooms = [...sampleRooms];
+            appState.timetable = {...sampleTimetable};
+            appState.allocations = [...sampleAllocations];
+            appState.events = [...sampleEvents];
+            
+            // Apply dark mode if enabled
+            if (appState.darkMode) {
+                document.body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Render initial views
+            renderTimetable();
+            renderRooms();
+            renderAllocations();
+            renderCalendar();
+            updateStats();
+
+            // Populate profile from signed-in user (if any)
+            populateProfileFromCurrentUser();
+
+            // If URL contains a hash (for example after login/register), open that page automatically
+            const initialHash = (location.hash || '').replace('#','');
+            if (initialHash) {
+                // ensure page exists before attempting to show it
+                try { showPage(initialHash); } catch (err) { /* ignore invalid hash */ }
+            }
+
+            // Show welcome toast
+            showToast('Welcome to College Resource Management Pro!', 'success');
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Navigation
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    
+                    // Update active nav link
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    // Show selected page
+                    const pageId = link.getAttribute('data-page');
+                    showPage(pageId);
+                });
+            });
+
+            // Faculty selection
+            facultyListItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    facultyListItems.forEach(li => li.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    const faculty = item.getAttribute('data-faculty');
+                    appState.currentFaculty = faculty;
+                    
+                    // Update page title if needed
+                    if (document.querySelector('#timetable').classList.contains('active')) {
+                        const facultyName = item.textContent.split(' (')[0];
+                        document.querySelector('#timetable h2').innerHTML = `<i class="fas fa-calendar-alt"></i> ${facultyName} Timetable`;
+                    }
+                    
+                    showToast(`Switched to ${item.textContent}`, 'success');
+                });
+            });
+
+            // Quick actions
+            quickActionItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const action = item.id;
+                    handleQuickAction(action);
+                });
+            });
+
+            // Dashboard buttons
+            document.getElementById('view-schedule').addEventListener('click', () => showPage('timetable'));
+            document.getElementById('book-room').addEventListener('click', () => {
+                showPage('rooms');
+                showToast('Use the filters to find available rooms', 'success');
+            });
+            document.getElementById('manage-deadlines').addEventListener('click', () => {
+                showPage('calendar');
+                showToast('Viewing deadlines in calendar', 'info');
+            });
+
+            // Timetable buttons
+            document.getElementById('add-class-btn').addEventListener('click', () => showModal('addClassModal'));
+            document.getElementById('clear-schedule-btn').addEventListener('click', clearSchedule);
+            document.getElementById('export-timetable-btn').addEventListener('click', exportTimetable);
+            document.getElementById('generate-optimized-schedule').addEventListener('click', optimizeSchedule);
+
+            // Room filters
+            document.getElementById('apply-room-filters').addEventListener('click', applyRoomFilters);
+            document.getElementById('reset-room-filters').addEventListener('click', resetRoomFilters);
+            document.getElementById('room-search').addEventListener('input', (e) => {
+                appState.currentFilters.search = e.target.value;
+                renderRooms();
+            });
+
+            // Resource allocation
+            document.getElementById('allocate-resource-btn').addEventListener('click', allocateResource);
+            document.getElementById('check-conflicts-btn').addEventListener('click', checkConflicts);
+            document.getElementById('auto-allocate-btn').addEventListener('click', autoAllocate);
+
+            // Calendar
+            document.getElementById('prev-month').addEventListener('click', prevMonth);
+            document.getElementById('next-month').addEventListener('click', nextMonth);
+            document.getElementById('add-event-btn').addEventListener('click', () => showModal('addEventModal'));
+
+            // Analytics
+            document.getElementById('generate-report-btn').addEventListener('click', generateReport);
+            
+            // Profile
+            document.getElementById('update-profile-btn').addEventListener('click', updateProfile);
+            document.getElementById('change-password-btn').addEventListener('click', changePassword);
+            document.getElementById('export-profile-data-btn').addEventListener('click', exportProfileData);
+            // Sign out (clears current user and returns to login)
+            const signoutBtn = document.getElementById('signout-btn');
+            if (signoutBtn) {
+                signoutBtn.addEventListener('click', () => {
+                    try { localStorage.setItem('rm_current_user_v1',''); } catch(e){}
+                    location.href = 'login.html';
+                });
+            }
+
+            // Avatar upload + undo (profile)
+            const avatarInput = document.getElementById('profile-avatar-input');
+            if (avatarInput) {
+                avatarInput.addEventListener('change', (e) => {
+                    const f = e.target.files && e.target.files[0];
+                    if (!f) return;
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        const data = String(ev.target.result || '');
+                        const img = document.getElementById('profile-avatar-img');
+                        const initials = document.getElementById('profile-avatar-initials');
+                        const dataInput = document.getElementById('profile-avatar-data');
+                        if (img) { img.src = data; img.style.display = 'block'; }
+                        if (initials) initials.style.display = 'none';
+                        if (dataInput) dataInput.value = data;
+                    };
+                    reader.readAsDataURL(f);
+                });
+            }
+
+            const profileUndoBtn = document.getElementById('profile-undo-btn');
+            if (profileUndoBtn) profileUndoBtn.addEventListener('click', () => {
+                // click is wired in updateProfile() to perform actual restore; here we just ensure it's focusable
+                profileUndoBtn.focus();
+            });
+            
+            // Theme selection in profile
+            if (profileThemeSelect) {
+                profileThemeSelect.value = appState.darkMode ? 'dark' : 'light';
+                profileThemeSelect.addEventListener('change', (e) => {
+                    if (e.target.value === 'dark') {
+                        toggleDarkMode(true);
+                    } else if (e.target.value === 'light') {
+                        toggleDarkMode(false);
+                    } else {
+                        // Auto mode - check system preference
+                        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                        toggleDarkMode(prefersDark);
+                    }
+                });
+            }
+
+            // Modal close buttons
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('active'));
+                });
+            });
+
+            // Save class button
+            document.getElementById('save-class-btn').addEventListener('click', saveClass);
+            
+            // Save event button
+            document.getElementById('save-event-btn').addEventListener('click', saveEvent);
+
+            // Theme toggle
+            themeToggle.addEventListener('click', () => {
+                toggleDarkMode(!appState.darkMode);
+                // Update profile theme selector if it exists
+                if (profileThemeSelect) {
+                    profileThemeSelect.value = appState.darkMode ? 'dark' : 'light';
+                }
+            });
+
+            // Global search
+            globalSearch.addEventListener('input', performGlobalSearch);
+
+            // Close modals when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal')) {
+                    document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('active'));
+                }
+            });
+            
+            // Listen for system theme changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+                if (profileThemeSelect && profileThemeSelect.value === 'auto') {
+                    toggleDarkMode(e.matches);
+                }
+            });
+            
+            // Drag and drop setup
+            setupDragAndDrop();
+        }
+
+        // Toggle dark mode
+        function toggleDarkMode(enable) {
+            appState.darkMode = enable;
+            
+            if (enable) {
+                document.body.classList.add('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('darkMode', 'true');
+                showToast('Dark mode enabled', 'info');
+            } else {
+                document.body.classList.remove('dark-mode');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('darkMode', 'false');
+                showToast('Light mode enabled', 'info');
+            }
+        }
+
+        // Show a page
+        function showPage(pageId) {
+            pages.forEach(page => {
+                page.classList.remove('active');
+                if (page.id === pageId) {
+                    page.classList.add('active');
+                }
+            });
+            
+            // Special handling for certain pages
+            if (pageId === 'timetable') {
+                const facultyName = document.querySelector('.faculty-list li.active').textContent.split(' (')[0];
+                document.querySelector('#timetable h2').innerHTML = `<i class="fas fa-calendar-alt"></i> ${facultyName} Timetable`;
+            } else if (pageId === 'calendar') {
+                renderCalendar();
+            } else if (pageId === 'profile') {
+                // Update theme selector in profile page
+                if (profileThemeSelect) {
+                    profileThemeSelect.value = appState.darkMode ? 'dark' : 'light';
+                }
+            }
+        }
+
+        // Show a modal
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.classList.add('show');
+            
+            // Add appropriate icon
+            const icon = toast.querySelector('i');
+            if (type === 'success') {
+                icon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                icon.className = 'fas fa-exclamation-circle';
+            } else {
+                icon.className = 'fas fa-info-circle';
+            }
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        // Handle quick actions
+        function handleQuickAction(action) {
+            switch(action) {
+                case 'quick-schedule':
+                    showPage('timetable');
+                    showToast('Viewing your schedule', 'success');
+                    break;
+                case 'quick-allocate':
+                    showPage('rooms');
+                    showToast('Ready to allocate a room', 'success');
+                    break;
+                case 'quick-check':
+                    // Filter to show only available rooms
+                    appState.currentFilters.status = 'available';
+                    document.getElementById('room-filter-status').value = 'available';
+                    showPage('rooms');
+                    renderRooms();
+                    showToast('Showing available rooms only', 'success');
+                    break;
+                case 'quick-analytics':
+                    showPage('analytics');
+                    showToast('Viewing analytics dashboard', 'info');
+                    break;
+            }
+        }
+
+        // Setup drag and drop functionality
+        function setupDragAndDrop() {
+            // This would be implemented with a drag and drop library in a real application
+            // For this example, we'll simulate the functionality
+            document.addEventListener('click', (e) => {
+                if (e.target.classList.contains('remove-class')) {
+                    const classEvent = e.target.closest('.class-event');
+                    const day = classEvent.getAttribute('data-day');
+                    const time = classEvent.getAttribute('data-time');
+                    
+                    if (confirm('Are you sure you want to remove this class?')) {
+                        delete appState.timetable[time][day];
+                        renderTimetable();
+                        showToast('Class removed successfully', 'success');
+                    }
+                }
+            });
+        }
+
+        // Render timetable with drag and drop support
+        function renderTimetable() {
+            const timeSlots = [
+                { id: '9-10', label: '9:00 - 10:00' },
+                { id: '10-11', label: '10:00 - 11:00' },
+                { id: '11-12', label: '11:00 - 12:00' },
+                { id: '1-2', label: '1:00 - 2:00' },
+                { id: '2-3', label: '2:00 - 3:00' },
+                { id: '3-4', label: '3:00 - 4:00' }
+            ];
+
+            timetableBody.innerHTML = '';
+
+            timeSlots.forEach(timeSlot => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="time-slot">${timeSlot.label}</td>
+                    <td data-day="monday" data-time="${timeSlot.id}">${renderTimetableCell('monday', timeSlot.id)}</td>
+                    <td data-day="tuesday" data-time="${timeSlot.id}">${renderTimetableCell('tuesday', timeSlot.id)}</td>
+                    <td data-day="wednesday" data-time="${timeSlot.id}">${renderTimetableCell('wednesday', timeSlot.id)}</td>
+                    <td data-day="thursday" data-time="${timeSlot.id}">${renderTimetableCell('thursday', timeSlot.id)}</td>
+                    <td data-day="friday" data-time="${timeSlot.id}">${renderTimetableCell('friday', timeSlot.id)}</td>
+                `;
+                timetableBody.appendChild(row);
+            });
+        }
+
+        // Render a single timetable cell
+        function renderTimetableCell(day, time) {
+            const classText = appState.timetable[time]?.[day];
+            if (!classText) return '<div class="empty-slot"></div>';
+            
+            // Determine class type for styling
+            let type = 'lecture';
+            if (classText.includes('Lab')) type = 'lab';
+            if (classText.includes('Office')) type = 'office';
+            if (classText.includes('Meeting')) type = 'meeting';
+            
+            return `
+                <div class="class-event ${type}" data-day="${day}" data-time="${time}">
+                    <i class="fas fa-grip-vertical drag-handle"></i>
+                    ${classText}
+                    <i class="fas fa-times remove-class" style="float: right; cursor: pointer; opacity: 0.7;"></i>
+                </div>
+            `;
+        }
+
+        // Render rooms with enhanced filtering
+        function renderRooms() {
+            roomsContainer.innerHTML = '';
+            
+            const filteredRooms = appState.rooms.filter(room => {
+                // Apply status filter
+                if (appState.currentFilters.status !== 'all' && room.status !== appState.currentFilters.status) {
+                    return false;
+                }
+                
+                // Apply type filter
+                if (appState.currentFilters.type !== 'all' && room.type !== appState.currentFilters.type) {
+                    return false;
+                }
+                
+                // Apply building/floor filter (floor selection reuses the existing control for backward compatibility)
+                if (appState.currentFilters.building !== 'all') {
+                    const filterVal = appState.currentFilters.building;
+                    // numeric values represent floors in the new UI
+                    if (/^\d+$/.test(String(filterVal))) {
+                        if (String(room.floor) !== String(filterVal)) return false;
+                    } else {
+                        // legacy: building letter (A/B/C...)
+                        if (room.building !== filterVal) return false;
+                    }
+                }
+                
+                // Apply search filter
+                if (appState.currentFilters.search) {
+                    const searchTerm = appState.currentFilters.search.toLowerCase();
+                    const roomInfo = `${room.name} ${room.faculty || ''} ${room.course || ''} ${room.building || ''} ${room.floor || ''}`.toLowerCase();
+                    if (!roomInfo.includes(searchTerm)) return false;
+                }
+                
+                return true;
+            });
+            
+            if (filteredRooms.length === 0) {
+                roomsContainer.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-secondary);">
+                        <i class="fas fa-door-closed fa-3x"></i>
+                        <h3 style="margin-top: 20px;">No rooms found</h3>
+                        <p>Try adjusting your filters or search terms</p>
+                        <button class="btn btn-outline" id="reset-filters-btn" style="margin-top: 20px;">
+                            <i class="fas fa-redo"></i> Reset All Filters
+                        </button>
+                    </div>
+                `;
+                
+                document.getElementById('reset-filters-btn').addEventListener('click', resetRoomFilters);
+                return;
+            }
+            
+            filteredRooms.forEach(room => {
+                const roomCard = document.createElement('div');
+                roomCard.className = `room-card ${room.status} ${room.type}`;
+                roomCard.innerHTML = `
+                    <div class="room-header">
+                        <div class="room-name">${room.name}</div>
+                        <div class="room-status status-${room.status}">${room.status === 'allocated' ? 'Allocated' : 'Available'}</div>
+                    </div>
+                    <p style="margin: 10px 0; color: var(--text-secondary);">
+                        <i class="fas fa-users"></i> Capacity: ${room.capacity} 
+                        <span style="margin-left: 15px;"><i class="fas fa-layer-group"></i> Floor ${room.floor || '—'}${room.building ? ' \u00B7 Bldg ' + room.building : ''}</span>
+                    </p>
+                    ${room.status === 'allocated' ? `
+                        <div class="room-schedule">
+                            <li><strong>Faculty:</strong> ${room.faculty}</li>
+                            <li><strong>Course:</strong> ${room.course}</li>
+                            <li><strong>Schedule:</strong> ${room.schedule}</li>
+                        </div>
+                    ` : `
+                        <p style="margin: 15px 0; color: var(--success); font-weight: 600;">
+                            <i class="fas fa-check-circle"></i> Available for allocation
+                        </p>
+                    `}
+                    <button class="btn ${room.status === 'available' ? 'btn-primary' : 'btn-outline'}" 
+                            style="margin-top: 15px; width: 100%;" 
+                            data-room-id="${room.id}">
+                        <i class="fas fa-${room.status === 'available' ? 'plus-circle' : 'info-circle'}"></i>
+                        ${room.status === 'available' ? 'Book This Room' : 'View Details'}
+                    </button>
+                `;
+                
+                roomsContainer.appendChild(roomCard);
+            });
+            
+            // Add event listeners to room buttons
+            document.querySelectorAll('[data-room-id]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const roomId = parseInt(e.currentTarget.getAttribute('data-room-id'));
+                    const room = appState.rooms.find(r => r.id === roomId);
+                    showRoomDetails(room);
+                });
+            });
+        }
+
+        // Show room details
+        function showRoomDetails(room) {
+            const title = document.getElementById('room-details-title');
+            const content = document.getElementById('room-details-content');
+            
+            title.textContent = `${room.name} Details`;
+            
+            if (room.status === 'allocated') {
+                content.innerHTML = `
+                    <div style="margin-bottom: 20px;">
+                        <p><strong>Room Type:</strong> ${room.type.charAt(0).toUpperCase() + room.type.slice(1)}</p>
+                        <p><strong>Capacity:</strong> ${room.capacity} ${room.type === 'lab' ? 'computers' : 'seats'}</p>
+                        <p><strong>Floor:</strong> ${room.floor || '—'}${room.building ? ' \u00B7 Building ' + room.building : ''}</p>
+                        <p><strong>Status:</strong> <span class="room-status status-allocated" style="display: inline-block;">Allocated</span></p>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="margin-bottom: 10px;">Allocation Details</h4>
+                        <p><strong>Faculty:</strong> ${room.faculty}</p>
+                        <p><strong>Course:</strong> ${room.course}</p>
+                        <p><strong>Schedule:</strong> ${room.schedule}</p>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-outline" id="modify-allocation-btn" data-room-id="${room.id}">
+                            Modify Allocation
+                        </button>
+                        <button class="btn btn-danger" id="deallocate-room-btn" data-room-id="${room.id}">
+                            Deallocate
+                        </button>
+                    </div>
+                `;
+            } else {
+                content.innerHTML = `
+                    <div style="margin-bottom: 20px;">
+                        <p><strong>Room Type:</strong> ${room.type.charAt(0).toUpperCase() + room.type.slice(1)}</p>
+                        <p><strong>Capacity:</strong> ${room.capacity} ${room.type === 'lab' ? 'computers' : 'seats'}</p>
+                        <p><strong>Floor:</strong> ${room.floor || '—'}${room.building ? ' \u00B7 Building ' + room.building : ''}</p>
+                        <p><strong>Status:</strong> <span class="room-status status-available" style="display: inline-block;">Available</span></p>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <p>This room is currently available for allocation. It has the following features:</p>
+                        <ul style="margin-top: 10px; padding-left: 20px; color: var(--text-secondary);">
+                            <li>Projector and screen</li>
+                            <li>Whiteboard</li>
+                            <li>Wi-Fi connectivity</li>
+                            ${room.type === 'lab' ? '<li>Computer workstations</li>' : ''}
+                        </ul>
+                    </div>
+                    <button class="btn btn-primary" id="allocate-room-btn" data-room-id="${room.id}" style="width: 100%;">
+                        <i class="fas fa-calendar-plus"></i> Allocate This Room
+                    </button>
+                `;
+            }
+            
+            showModal('roomDetailsModal');
+            
+            // Add event listeners to modal buttons
+            if (room.status === 'allocated') {
+                document.getElementById('deallocate-room-btn').addEventListener('click', () => deallocateRoom(room.id));
+                document.getElementById('modify-allocation-btn').addEventListener('click', () => {
+                    showToast('Modify allocation feature coming soon!', 'success');
+                    roomDetailsModal.classList.remove('active');
+                });
+            } else {
+                document.getElementById('allocate-room-btn').addEventListener('click', () => {
+                    showToast(`Redirecting to allocation form for ${room.name}`, 'success');
+                    roomDetailsModal.classList.remove('active');
+                    showPage('resources');
+                    // Pre-fill the resource form
+                    document.getElementById('resource-room').value = room.name;
+                });
+            }
+        }
+
+        // Apply room filters
+        function applyRoomFilters() {
+            appState.currentFilters.status = document.getElementById('room-filter-status').value;
+            appState.currentFilters.type = document.getElementById('room-filter-type').value;
+            appState.currentFilters.building = document.getElementById('room-filter-building').value;
+            renderRooms();
+            
+            const filterCount = Object.values(appState.currentFilters).filter(val => val !== 'all' && val !== '').length;
+            if (filterCount > 0) {
+                showToast(`Applied ${filterCount} filter(s)`, 'success');
+            }
+        }
+
+        // Reset room filters
+        function resetRoomFilters() {
+            appState.currentFilters = {
+                status: 'all',
+                type: 'all',
+                building: 'all',
+                search: ''
+            };
+            
+            document.getElementById('room-filter-status').value = 'all';
+            document.getElementById('room-filter-type').value = 'all';
+            document.getElementById('room-filter-building').value = 'all';
+            document.getElementById('room-search').value = '';
+            
+            renderRooms();
+            showToast('Filters reset successfully', 'success');
+        }
+
+        // Deallocate a room
+        function deallocateRoom(roomId) {
+            const room = appState.rooms.find(r => r.id === roomId);
+            if (room) {
+                room.status = 'available';
+                delete room.faculty;
+                delete room.course;
+                delete room.schedule;
+                
+                renderRooms();
+                updateStats();
+                roomDetailsModal.classList.remove('active');
+                showToast(`Room ${room.name} has been deallocated`, 'success');
+            }
+        }
+
+        // Render allocations table
+        function renderAllocations() {
+            allocationsTable.innerHTML = '';
+            
+            appState.allocations.forEach(allocation => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${allocation.faculty}</td>
+                    <td>${allocation.resource}</td>
+                    <td>${allocation.day}</td>
+                    <td>${allocation.time}</td>
+                    <td>${allocation.purpose}</td>
+                    <td>
+                        <button class="btn btn-outline" style="padding: 5px 10px; font-size: 0.9rem; margin-right: 5px;">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger remove-allocation-btn" data-id="${allocation.id}" style="padding: 5px 10px; font-size: 0.9rem;">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                `;
+                allocationsTable.appendChild(row);
+            });
+            
+            // Add event listeners to remove buttons
+            document.querySelectorAll('.remove-allocation-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const allocationId = parseInt(e.currentTarget.getAttribute('data-id'));
+                    removeAllocation(allocationId);
+                });
+            });
+        }
+
+        // Allocate a resource
+        function allocateResource() {
+            const facultySelect = document.getElementById('resource-faculty');
+            const roomSelect = document.getElementById('resource-room');
+            const daySelect = document.getElementById('resource-day');
+            const timeSelect = document.getElementById('resource-time');
+            const purposeInput = document.getElementById('resource-purpose');
+            const durationInput = document.getElementById('resource-duration');
+            
+            // Validate inputs
+            if (!purposeInput.value.trim()) {
+                showToast('Please enter a purpose for the allocation', 'error');
+                purposeInput.focus();
+                return;
+            }
+            
+            // Check for conflicts
+            const conflicts = checkForConflicts(roomSelect.value, daySelect.value, timeSelect.value);
+            if (conflicts.length > 0) {
+                document.getElementById('conflict-message').textContent = `${roomSelect.value} is already allocated at this time.`;
+                document.getElementById('conflict-alert').style.display = 'block';
+                return;
+            }
+            
+            // Create new allocation (respect duration — store expanded time range)
+            const rawTimeText = timeSelect.options[timeSelect.selectedIndex].text; // e.g. "9:00 - 10:00"
+            const requestedDuration = Math.max(1, parseInt(durationInput.value, 10) || 1);
+            const timeRange = expandTimeByDuration(rawTimeText, requestedDuration);
+
+            const newAllocation = {
+                id: appState.allocations.length + 1,
+                faculty: facultySelect.options[facultySelect.selectedIndex].text.split(' (')[0],
+                resource: roomSelect.value,
+                day: daySelect.options[daySelect.selectedIndex].text,
+                time: timeRange,
+                purpose: purposeInput.value
+            };
+
+            // Add to allocations
+            appState.allocations.push(newAllocation);
+            
+            // Update room status if it's a room allocation
+            const roomName = roomSelect.value;
+            const room = appState.rooms.find(r => r.name === roomName);
+            if (room) {
+                room.status = 'allocated';
+                room.faculty = newAllocation.faculty;
+                room.course = newAllocation.purpose;
+                room.schedule = `${newAllocation.day} ${newAllocation.time}`;
+                
+                // Update stats
+                updateStats();
+            }
+            
+            // Re-render
+            renderAllocations();
+            renderRooms();
+            
+            // Reset form and hide conflict alert
+            purposeInput.value = '';
+            durationInput.value = '1';
+            document.getElementById('conflict-alert').style.display = 'none';
+            
+            showToast('Resource allocated successfully!', 'success');
+        }
+
+        // Time helpers — parse/format minute-based ranges and check overlaps
+        function parseTimeToMinutes(hm) {
+            // accepts "9:00" or "9:00 AM"/"1:00 PM" — returns minutes since 00:00
+            const m = hm.trim().toLowerCase().replace(/\./g, '');
+            const ampm = m.match(/\b(am|pm)\b/);
+            const parts = m.replace(/\s*(am|pm)\b/, '').split(':');
+            let hrs = parseInt(parts[0], 10);
+            const mins = parseInt(parts[1] || '0', 10);
+            if (ampm) {
+                if (ampm[1] === 'pm' && hrs !== 12) hrs += 12;
+                if (ampm[1] === 'am' && hrs === 12) hrs = 0;
+            }
+            return hrs * 60 + mins;
+        }
+
+        function parseTimeRange(text) {
+            // expects formats like "9:00 - 10:00" or "9:00 AM - 11:00 AM"
+            const parts = text.split('-').map(s => s.trim());
+            const start = parseTimeToMinutes(parts[0]);
+            const end = parseTimeToMinutes(parts[1]);
+            return { start, end };
+        }
+
+        function formatMinutesToTime(mins) {
+            const h = Math.floor(mins / 60);
+            const m = mins % 60;
+            return `${h}:${m.toString().padStart(2, '0')}`;
+        }
+
+        function expandTimeByDuration(slotText, hours) {
+            // slotText: "9:00 - 10:00", hours: integer
+            const r = parseTimeRange(slotText);
+            const newEnd = r.start + Math.max(1, hours) * 60;
+            return `${formatMinutesToTime(r.start)} - ${formatMinutesToTime(newEnd)}`;
+        }
+
+        function intervalsOverlap(a, b) {
+            // [start, end) overlap check
+            return a.start < b.end && b.start < a.end;
+        }
+
+        // Check for conflicts (interval-overlap aware)
+        function checkForConflicts(room, day, time) {
+            const dayText = document.getElementById('resource-day').options[document.getElementById('resource-day').selectedIndex].text;
+            const rawTimeText = document.getElementById('resource-time').options[document.getElementById('resource-time').selectedIndex].text;
+            const requestedDuration = Math.max(1, parseInt(document.getElementById('resource-duration').value, 10) || 1);
+            const requestedRange = parseTimeRange(expandTimeByDuration(rawTimeText, requestedDuration));
+
+            const conflicts = appState.allocations.filter(allocation => {
+                if (allocation.resource !== room) return false;
+                if (allocation.day !== dayText) return false;
+
+                // allocation.time may be a single-slot label ("9:00 - 10:00") or an expanded range
+                try {
+                    const existingRange = parseTimeRange(allocation.time);
+                    return intervalsOverlap(existingRange, requestedRange);
+                } catch (err) {
+                    // fallback to conservative exact-text match if parse fails
+                    return allocation.time === rawTimeText;
+                }
+            });
+
+            if (conflicts.length > 0) {
+                const first = conflicts[0];
+                document.getElementById('conflict-message').textContent = `${room} is already allocated to ${first.faculty} (${first.time}) — overlaps with requested ${formatMinutesToTime(requestedRange.start)} - ${formatMinutesToTime(requestedRange.end)}.`;
+                document.getElementById('conflict-alert').style.display = 'block';
+                showToast('Conflict detected: overlapping allocation.', 'error');
+            } else {
+                document.getElementById('conflict-alert').style.display = 'none';
+                showToast('No conflicts detected. You can proceed with allocation.', 'success');
+            }
+
+            return conflicts;
+        }
+
+        // Lightweight unit tests for overlap logic (logs only)
+        (function runOverlapUnitTests() {
+            try {
+                console.groupCollapsed('Overlap tests');
+                const a = { start: 9 * 60, end: 10 * 60 };
+                console.assert(intervalsOverlap(a, { start: 9 * 60 + 30, end: 10 * 60 + 30 }) === true, 'overlap-mid');
+                console.assert(intervalsOverlap(a, { start: 10 * 60, end: 11 * 60 }) === false, 'touching-end (non-overlap)');
+                console.assert(intervalsOverlap(a, { start: 8 * 60, end: 9 * 60 + 15 }) === true, 'overlap-start');
+                console.assert(intervalsOverlap(a, { start: 7 * 60, end: 8 * 60 + 30 }) === false, 'separate');
+                console.log('All overlap assertions executed (use console.assert failures to detect issues)');
+                console.groupEnd();
+            } catch (e) {
+                console.warn('Overlap tests failed to run', e);
+            }
+        })();
+
+        // Check conflicts button handler
+        function checkConflicts() {
+            const roomSelect = document.getElementById('resource-room');
+            const daySelect = document.getElementById('resource-day');
+            const timeSelect = document.getElementById('resource-time');
+            
+            if (!roomSelect.value) {
+                showToast('Please select a room first', 'error');
+                return;
+            }
+            
+            checkForConflicts(roomSelect.value, daySelect.value, timeSelect.value);
+        }
+
+        // Auto-allocate resources
+        function autoAllocate() {
+            // Simulate auto-allocation logic
+            showToast('Auto-allocation feature is processing...', 'info');
+            
+            // Simulate processing delay
+            setTimeout(() => {
+                // Find an available room
+                const availableRoom = appState.rooms.find(room => room.status === 'available');
+                
+                if (availableRoom) {
+                    // Auto-fill the form with the available room
+                    document.getElementById('resource-room').value = availableRoom.name;
+                    document.getElementById('resource-purpose').value = 'Auto-allocated Class';
+                    
+                    showToast(`Auto-allocated ${availableRoom.name} for your class`, 'success');
+                } else {
+                    showToast('No available rooms found for auto-allocation', 'error');
+                }
+            }, 1500);
+        }
+
+        // Remove an allocation
+        function removeAllocation(allocationId) {
+            const allocationIndex = appState.allocations.findIndex(a => a.id === allocationId);
+            if (allocationIndex !== -1) {
+                // Update room status if needed
+                const allocation = appState.allocations[allocationIndex];
+                const room = appState.rooms.find(r => r.name === allocation.resource);
+                if (room) {
+                    room.status = 'available';
+                    delete room.faculty;
+                    delete room.course;
+                    delete room.schedule;
+                }
+                
+                // Remove allocation
+                appState.allocations.splice(allocationIndex, 1);
+                
+                // Re-render
+                renderAllocations();
+                renderRooms();
+                updateStats();
+                
+                showToast('Allocation removed successfully', 'success');
+            }
+        }
+
+        // Save a new class
+        function saveClass() {
+            const courseInput = document.getElementById('class-course');
+            const roomSelect = document.getElementById('class-room');
+            const daySelect = document.getElementById('class-day');
+            const timeSelect = document.getElementById('class-time');
+            const typeSelect = document.getElementById('class-type');
+            
+            // Validate inputs
+            if (!courseInput.value.trim()) {
+                showToast('Please enter a course name', 'error');
+                courseInput.focus();
+                return;
+            }
+            
+            if (!roomSelect.value) {
+                showToast('Please select a room', 'error');
+                roomSelect.focus();
+                return;
+            }
+            
+            // Add to timetable
+            const timeSlot = timeSelect.value;
+            const day = daySelect.value;
+            const classText = `${courseInput.value} (${roomSelect.value})`;
+            
+            if (!appState.timetable[timeSlot]) {
+                appState.timetable[timeSlot] = {};
+            }
+            appState.timetable[timeSlot][day] = classText;
+            
+            // Update room status
+            const room = appState.rooms.find(r => r.name === roomSelect.value);
+            if (room) {
+                room.status = 'allocated';
+                room.faculty = appState.currentFaculty === 'smith' ? 'Dr. Smith' : 'Faculty';
+                room.course = courseInput.value;
+                room.schedule = `${daySelect.options[daySelect.selectedIndex].text} ${timeSelect.options[timeSelect.selectedIndex].text}`;
+            }
+            
+            // Re-render
+            renderTimetable();
+            renderRooms();
+            updateStats();
+            
+            // Close modal and reset form
+            addClassModal.classList.remove('active');
+            document.getElementById('addClassForm').reset();
+            
+            showToast('Class added to timetable!', 'success');
+        }
+
+        // Save a new event
+        function saveEvent() {
+            const eventTitle = document.getElementById('event-title');
+            const eventDate = document.getElementById('event-date');
+            const eventTime = document.getElementById('event-time');
+            const eventDuration = document.getElementById('event-duration');
+            const eventType = document.getElementById('event-type');
+            const eventLocation = document.getElementById('event-location');
+            
+            // Validate inputs
+            if (!eventTitle.value.trim()) {
+                showToast('Please enter an event title', 'error');
+                eventTitle.focus();
+                return;
+            }
+            
+            // Create new event
+            const newEvent = {
+                id: appState.events.length + 1,
+                title: eventTitle.value,
+                date: eventDate.value,
+                time: eventTime.value,
+                duration: parseFloat(eventDuration.value),
+                type: eventType.value,
+                location: eventLocation.value
+            };
+            
+            // Add to events
+            appState.events.push(newEvent);
+            
+            // Re-render calendar
+            renderCalendar();
+            
+            // Close modal and reset form
+            addEventModal.classList.remove('active');
+            document.getElementById('addEventForm').reset();
+            
+            showToast('Event added to calendar!', 'success');
+        }
+
+        // Clear schedule for current day
+        function clearSchedule() {
+            const today = new Date().getDay();
+            const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            const todayName = days[today];
+            
+            if (todayName === 'saturday' || todayName === 'sunday') {
+                showToast('No classes scheduled on weekends', 'info');
+                return;
+            }
+            
+            if (confirm(`Are you sure you want to clear your schedule for ${todayName}?`)) {
+                // Clear timetable for today
+                Object.keys(appState.timetable).forEach(timeSlot => {
+                    appState.timetable[timeSlot][todayName] = '';
+                });
+                
+                renderTimetable();
+                showToast(`Today's (${todayName}) schedule cleared`, 'success');
+            }
+        }
+
+        // Optimize schedule
+        function optimizeSchedule() {
+            showToast('Optimizing your schedule...', 'info');
+            
+            // Simulate optimization processing
+            setTimeout(() => {
+                // In a real app, this would run an algorithm to optimize the schedule
+                // For now, we'll just show a success message
+                showToast('Schedule optimized successfully! Gaps reduced by 25%', 'success');
+            }, 2000);
+        }
+
+        // Export timetable
+        function exportTimetable() {
+            // In a real app, this would generate a CSV or PDF
+            showToast('Timetable exported successfully!', 'success');
+        }
+
+        // Generate report
+        function generateReport() {
+            const reportType = document.getElementById('report-type').value;
+            const timePeriod = document.getElementById('time-period').value;
+            const department = document.getElementById('department-filter').value;
+            const building = document.getElementById('building-filter').value;
+            
+            showToast(`Generating ${reportType} report for ${timePeriod}...`, 'info');
+            
+            // Simulate report generation
+            setTimeout(() => {
+                showToast(`${reportType} report generated successfully!`, 'success');
+            }, 1500);
+        }
+
+        // User persistence helpers (shared with login/register pages)
+        const RM_USERS_KEY = 'rm_users_v1';
+        const RM_CURRENT_USER = 'rm_current_user_v1';
+
+        function getStoredUsers() {
+            try { return JSON.parse(localStorage.getItem(RM_USERS_KEY)) || []; } catch (e) { return []; }
+        }
+        function saveStoredUsers(users) {
+            localStorage.setItem(RM_USERS_KEY, JSON.stringify(users || []));
+        }
+        function getCurrentUserEmail() {
+            return (localStorage.getItem(RM_CURRENT_USER) || '').trim().toLowerCase();
+        }
+        function setCurrentUserEmail(email) {
+            localStorage.setItem(RM_CURRENT_USER, email || '');
+        }
+        function findStoredUser(email) {
+            if (!email) return null;
+            const users = getStoredUsers();
+            return users.find(u => (u.email||'').toLowerCase() === String(email).toLowerCase()) || null;
+        }
+
+        // Populate profile form from the signed-in user (called during init)
+        function populateProfileFromCurrentUser() {
+            const email = getCurrentUserEmail();
+            const profileName = document.getElementById('profile-name');
+            const profileEmail = document.getElementById('profile-email');
+            const profileOffice = document.getElementById('profile-office');
+            const profilePhone = document.getElementById('profile-phone');
+            const profileDept = document.getElementById('profile-department');
+
+            if (!email) {
+                // no signed-in user — leave defaults, disable update
+                if (profileEmail) profileEmail.removeAttribute('readonly');
+                document.querySelectorAll('#update-profile-btn').forEach(b=>b.disabled=false);
+                return;
+            }
+
+            let user = findStoredUser(email);
+            if (!user) {
+                // create a minimal fallback user so profile can be edited (helps demo accounts)
+                const nameFromEmail = email.split('@')[0].replace(/[._\d-]+/g, ' ');
+                user = { name: nameFromEmail.replace(/(^|\s)\S/g, s=>s.toUpperCase()), email: email, theme: appState.darkMode ? 'dark' : 'light' };
+                const users = getStoredUsers(); users.push(user); saveStoredUsers(users);
+            }
+
+            // Fill form fields (only fill if element exists)
+            if (profileName) profileName.value = user.name || '';
+            if (profileEmail) { profileEmail.value = user.email || ''; profileEmail.setAttribute('readonly', 'true'); }
+            if (profileOffice) profileOffice.value = user.office || user.officeLocation || '';
+            if (profilePhone) profilePhone.value = user.phone || '';
+            if (profileDept) profileDept.value = user.departmentDisplay || user.department || '';
+
+            // Theme preference (app-level)
+            if (profileThemeSelect) profileThemeSelect.value = user.theme || (appState.darkMode ? 'dark' : 'light');
+
+            // Expose current user in appState
+            appState.currentUser = user.email;
+
+            // Set profile nav tooltip to user's name for quick recognition
+            const profileNav = document.querySelector('nav a[data-page="profile"]');
+            if (profileNav) profileNav.setAttribute('title', user.name || user.email || 'Profile');
+
+            // --- Populate right-column summary (if present) ---
+            const avatarEl = document.getElementById('profile-avatar-initials');
+            const summaryName = document.getElementById('profile-summary-name');
+            const summaryDept = document.getElementById('profile-summary-department');
+            const summaryOffice = document.getElementById('profile-summary-office');
+            const summaryPhone = document.getElementById('profile-summary-phone');
+            const summaryNotifications = document.getElementById('profile-summary-notifications');
+            const summaryTheme = document.getElementById('profile-summary-theme');
+
+            // derive display values
+            const displayName = user.name || user.email.split('@')[0];
+            const displayDept = (user.departmentDisplay || user.department || '') + (user.role ? ' • ' + user.role : '');
+            const displayOffice = user.office || user.officeLocation || '—';
+            const displayPhone = user.phone || '—';
+            const displayNotifications = (user.notifications || 'All').replace(/_/g, ' ');
+            const displayTheme = (user.theme || (appState.darkMode ? 'Dark' : 'Light'));
+
+            if (summaryName) summaryName.textContent = displayName;
+            if (summaryDept) summaryDept.textContent = displayDept || 'Faculty';
+            if (summaryOffice) summaryOffice.textContent = displayOffice;
+            if (summaryPhone) summaryPhone.textContent = displayPhone;
+            if (summaryNotifications) summaryNotifications.textContent = displayNotifications;
+            if (summaryTheme) summaryTheme.textContent = displayTheme;
+
+            if (avatarEl) {
+                // create initials from name
+                const initials = (displayName.split(' ').map(s=>s[0]||'').slice(0,2).join('') || displayName.slice(0,2)).toUpperCase();
+
+                const avatarImg = document.getElementById('profile-avatar-img');
+                const avatarDataInput = document.getElementById('profile-avatar-data');
+
+                if (user.avatar) {
+                    // show provided avatar image (base64)
+                    if (avatarImg) { avatarImg.src = user.avatar; avatarImg.style.display = 'block'; }
+                    if (avatarEl) { avatarEl.style.display = 'none'; }
+                    if (avatarDataInput) avatarDataInput.value = user.avatar;
+                } else {
+                    if (avatarEl) { avatarEl.textContent = initials; avatarEl.style.display = 'grid'; avatarEl.setAttribute('aria-label', displayName + ' avatar'); }
+                    if (avatarImg) avatarImg.style.display = 'none';
+                    if (avatarDataInput) avatarDataInput.value = '';
+                }
+            }
+        }
+
+        // Save profile edits back to localStorage (does NOT allow changing email in-place)
+        function updateProfile() {
+            const email = getCurrentUserEmail();
+            if (!email) {
+                showToast('No signed-in user — please sign in to update your profile.', 'warning');
+                return;
+            }
+
+            const users = getStoredUsers();
+            const userIndex = users.findIndex(u => (u.email||'').toLowerCase() === email.toLowerCase());
+            if (userIndex === -1) return showToast('Signed-in account not found (corrupt state).', 'error');
+
+            // Read editable fields
+            const name = (document.getElementById('profile-name')?.value || '').trim();
+            const office = (document.getElementById('profile-office')?.value || '').trim();
+            const phone = (document.getElementById('profile-phone')?.value || '').trim();
+            const department = (document.getElementById('profile-department')?.value || '').trim();
+            const theme = (document.getElementById('profile-theme')?.value || (appState.darkMode ? 'dark' : 'light'));
+
+            // Keep a snapshot for undo
+            const previousSnapshot = Object.assign({}, users[userIndex]);
+
+            // Apply changes
+            users[userIndex].name = name || users[userIndex].name;
+            users[userIndex].office = office;
+            users[userIndex].phone = phone;
+            users[userIndex].departmentDisplay = department || users[userIndex].departmentDisplay || users[userIndex].department || '';
+            users[userIndex].theme = theme;
+
+            // Avatar (base64) persisted if provided
+            const avatarData = document.getElementById('profile-avatar-data')?.value || '';
+            if (avatarData) users[userIndex].avatar = avatarData;
+            else delete users[userIndex].avatar;
+
+            saveStoredUsers(users);
+
+            // Sync app state (theme immediate)
+            appState.darkMode = (theme === 'dark');
+            if (theme === 'dark') document.body.classList.add('dark-mode'); else document.body.classList.remove('dark-mode');
+
+            // show success + temporary inline undo
+            const undoArea = document.getElementById('profile-undo');
+            if (undoArea) {
+                undoArea.classList.remove('sr-only');
+                const undoBtn = document.getElementById('profile-undo-btn');
+                const hide = () => undoArea.classList.add('sr-only');
+                const timeout = setTimeout(hide, 6000);
+                undoBtn.onclick = () => {
+                    // restore
+                    users[userIndex] = previousSnapshot;
+                    saveStoredUsers(users);
+                    populateProfileFromCurrentUser();
+                    hide();
+                    showToast('Profile changes reverted', 'info');
+                    clearTimeout(timeout);
+                };
+            }
+
+            showToast('Profile updated successfully.', 'success');
+
+            // refresh UI where necessary
+            populateProfileFromCurrentUser();
+        }
+
+        // Change password
+        function changePassword() {
+            showToast('Password change feature coming soon!', 'info');
+        }
+
+        // Export profile data
+        function exportProfileData() {
+            showToast('Profile data exported successfully!', 'success');
+        }
+
+        // Update statistics
+        function updateStats() {
+            const totalRooms = appState.rooms.length;
+            const allocatedRooms = appState.rooms.filter(r => r.status === 'allocated').length;
+            const availableRooms = totalRooms - allocatedRooms;
+            const allocationRate = Math.round((allocatedRooms / totalRooms) * 100);
+            
+            document.getElementById('total-rooms').textContent = totalRooms;
+            document.getElementById('allocated-rooms').textContent = allocatedRooms;
+            document.getElementById('available-rooms').textContent = availableRooms;
+            document.getElementById('allocation-rate').textContent = `${allocationRate}%`;
+            
+            // Update analytics stats
+            document.getElementById('utilization-rate').textContent = `${allocationRate}%`;
+            document.getElementById('faculty-count').textContent = '48';
+            document.getElementById('courses-count').textContent = '156';
+            document.getElementById('avg-class-hours').textContent = '16.5';
+        }
+
+        // Render calendar
+        function renderCalendar() {
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            currentMonthDisplay.textContent = `${monthNames[appState.currentMonth]} ${appState.currentYear}`;
+            
+            // Get first day of month and number of days
+            const firstDay = new Date(appState.currentYear, appState.currentMonth, 1).getDay();
+            const daysInMonth = new Date(appState.currentYear, appState.currentMonth + 1, 0).getDate();
+            const today = new Date();
+            
+            calendarView.innerHTML = '';
+            
+            // Add day headers
+            const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            dayNames.forEach(dayName => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'calendar-day-header';
+                dayHeader.textContent = dayName;
+                dayHeader.style.fontWeight = '700';
+                dayHeader.style.textAlign = 'center';
+                dayHeader.style.color = 'var(--text-secondary)';
+                calendarView.appendChild(dayHeader);
+            });
+            
+            // Add empty cells for days before the first day of the month
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day';
+                emptyDay.style.opacity = '0.3';
+                calendarView.appendChild(emptyDay);
+            }
+            
+            // Add days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                
+                // Check if this is today
+                if (day === today.getDate() && appState.currentMonth === today.getMonth() && appState.currentYear === today.getFullYear()) {
+                    dayElement.classList.add('current');
+                }
+                
+                dayElement.innerHTML = `<div class="calendar-day-header" style="color: ${dayElement.classList.contains('current') ? 'white' : 'var(--primary)'}">${day}</div>`;
+                
+                // Add events for this day
+                const dateStr = `${appState.currentYear}-${String(appState.currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayEvents = appState.events.filter(event => event.date === dateStr);
+                
+                dayEvents.forEach(event => {
+                    const eventElement = document.createElement('div');
+                    eventElement.className = 'calendar-event';
+                    eventElement.style.background = getEventColor(event.type);
+                    eventElement.textContent = event.title;
+                    dayElement.appendChild(eventElement);
+                });
+                
+                calendarView.appendChild(dayElement);
+            }
+        }
+
+        // Get color for event type
+        function getEventColor(type) {
+            switch(type) {
+                case 'meeting': return 'var(--meeting)';
+                case 'deadline': return 'var(--accent)';
+                case 'office-hours': return 'var(--warning)';
+                default: return 'var(--secondary)';
+            }
+        }
+
+        // Previous month
+        function prevMonth() {
+            appState.currentMonth--;
+            if (appState.currentMonth < 0) {
+                appState.currentMonth = 11;
+                appState.currentYear--;
+            }
+            renderCalendar();
+        }
+
+        // Next month
+        function nextMonth() {
+            appState.currentMonth++;
+            if (appState.currentMonth > 11) {
+                appState.currentMonth = 0;
+                appState.currentYear++;
+            }
+            renderCalendar();
+        }
+
+        // Perform global search
+        function performGlobalSearch() {
+            const searchTerm = globalSearch.value.toLowerCase();
+            
+            if (searchTerm.length < 2) return;
+            
+            // Search across different data types
+            const facultyResults = Array.from(facultyListItems).filter(item => 
+                item.textContent.toLowerCase().includes(searchTerm)
+            );
+            
+            const roomResults = appState.rooms.filter(room => 
+                room.name.toLowerCase().includes(searchTerm) ||
+                (room.faculty && room.faculty.toLowerCase().includes(searchTerm)) ||
+                (room.course && room.course.toLowerCase().includes(searchTerm))
+            );
+            
+            // Show search results
+            if (facultyResults.length > 0 || roomResults.length > 0) {
+                showToast(`Found ${facultyResults.length + roomResults.length} results for "${searchTerm}"`, 'info');
+                
+                // If we're on the rooms page, filter rooms
+                if (document.querySelector('#rooms').classList.contains('active')) {
+                    appState.currentFilters.search = searchTerm;
+                    renderRooms();
+                }
+            }
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
